@@ -1,11 +1,5 @@
 export const suggestedPrompts = [
   {
-    category: 'Text Analysis',
-    description: 'Test document understanding and summarization capabilities',
-    prompt: 'Summarize the key points from this quarterly business report: [paste sample text]',
-    expectedOutput: 'Structured summary with main findings, metrics, and recommendations',
-  },
-  {
     category: 'Data Extraction',
     description: 'Extract structured information from unstructured text',
     prompt: 'Extract all dates, names, and amounts from this invoice: [paste sample invoice text]',
@@ -24,6 +18,3 @@ export const suggestedPrompts = [
     expectedOutput: 'Clear, accurate answer citing relevant policy sections',
   },
 ];
-
-export const demoDisclaimer =
-  'This is a test environment for evaluation purposes. Do not input sensitive, confidential, or personally identifiable information. Use sample or anonymized data only. The demo showcases capabilities but may have limitations compared to production deployments.';

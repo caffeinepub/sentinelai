@@ -2,6 +2,7 @@ import { HeroSection } from './components/HeroSection';
 import { SiteHeader } from './components/SiteHeader';
 import { SiteFooter } from './components/SiteFooter';
 import { TryDemoSection } from './components/TryDemoSection';
+import { AssistantSection } from './components/AssistantSection';
 import { CapabilitiesSection } from './components/CapabilitiesSection';
 import { HowItWorksSection } from './components/HowItWorksSection';
 import { UseCasesSection } from './components/UseCasesSection';
@@ -17,6 +18,7 @@ function App() {
       <BackendHealthBanner />
       <main className="flex-1">
         <HeroSection />
+        <AssistantSection />
         <TryDemoSection />
         <CapabilitiesSection />
         <HowItWorksSection />

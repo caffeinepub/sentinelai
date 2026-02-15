@@ -1,93 +1,92 @@
 {
   "kind": "build_request",
-  "title": "Stabilize build/deployment and perform full application smoke-test fixes",
+  "title": "Purge all “SentinelAI” branding and make the Assistant service healthy and fully working",
   "priority": "high",
   "requirements": [
     {
-      "id": "REQ-19",
-      "text": "Identify and fix the root cause of the deployment failure so the project can build and deploy successfully end-to-end.",
-      "target": "both",
-      "source": {
-        "messageIds": [
-          "recent-messages-1"
-        ],
-        "quotes": [
-          "🙏 Something went wrong with the deployment"
-        ]
-      },
-      "acceptanceCriteria": [
-        "A full build completes without errors (frontend bundling and Motoko compilation).",
-        "A full deploy completes successfully with no deployment-step errors.",
-        "No new build-time warnings are introduced that indicate broken configuration (e.g., missing assets, missing environment values, broken imports)."
-      ]
-    },
-    {
-      "id": "REQ-20",
-      "text": "Run and fix a complete frontend runtime smoke test of the single-page site: all sections render, navigation scroll targets work, and all external links open correctly without console errors.",
+      "id": "REQ-33",
+      "text": "Remove all user-facing occurrences of the “SentinelAI” name from the website UI and replace them with “Nexus Forge AI”, ensuring that no visible text, aria-labels, alt text, headings, paragraphs, helper text, or CTA copy on any section renders “SentinelAI”. At minimum, update the known remaining occurrences in: `frontend/src/components/SiteHeader.tsx`, `frontend/src/components/SiteFooter.tsx`, `frontend/src/components/HeroSection.tsx`, `frontend/src/components/AssistantSection.tsx`, `frontend/src/components/FAQSection.tsx`, `frontend/src/components/UseCasesSection.tsx`, and `frontend/src/components/ContactSection.tsx`.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "recent-messages-2"
+          "msg-4"
         ],
         "quotes": [
-          "fix the record on everything make sure all is working 100 percent"
+          "and everything on the page says sentinel ai no change that I want everything on the website is Nexus forge ai no sentinel ai I don't want nothing on the website that says sentinel ai no I want it Nexus forge ai"
         ]
       },
       "acceptanceCriteria": [
-        "Visiting the app shows the header, hero, try-demo, capabilities, how-it-works, safety/security, use-cases, FAQ, contact, and footer sections with no blank/undefined content.",
-        "Header navigation buttons scroll to the correct section IDs (hero, capabilities, how-it-works, safety-security, use-cases, faq, contact).",
-        "All “Try the Demo”/“Launch Demo Environment” links open https://nexusforgeai.base44.app/Chat in a new tab and do not throw errors.",
-        "Submitting the contact form triggers the mailto flow and does not throw runtime errors.",
-        "Browser console shows no uncaught exceptions during normal interaction (scrolling, opening mobile menu, clicking nav, clicking CTAs, submitting contact form)."
+        "Visually scanning the site (all sections in `frontend/src/App.tsx`) shows zero instances of the string “SentinelAI”.",
+        "A case-insensitive search for “SentinelAI” across `frontend/src` returns no matches in user-facing content, including `alt` attributes and `aria-label` values.",
+        "The brand name displayed in the header and footer reads “Nexus Forge AI”."
       ]
     },
     {
-      "id": "REQ-21",
-      "text": "Add a minimal backend health surface (non-breaking) to confirm the canister is deployed and callable, and wire a simple frontend check to display a clear failure state if the backend is unreachable.",
-      "target": "both",
-      "source": {
-        "messageIds": [
-          "recent-messages-2"
-        ],
-        "quotes": [
-          "make sure all is working 100 percent"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Backend exposes a simple query method (e.g., returning a static string/version) that compiles and is callable after deploy.",
-        "Frontend performs a lightweight check (on load or via a diagnostics UI element) and shows an English, user-friendly message if the backend cannot be reached.",
-        "The health check does not require authentication and does not modify persistent state.",
-        "No changes are made to immutable frontend hook files; the implementation composes with the existing actor/auth setup."
-      ]
-    },
-    {
-      "id": "REQ-22",
-      "text": "Audit and fix any broken/missing static assets referenced by the UI (especially images under /assets/generated) so that all images load without 404s after deployment.",
+      "id": "REQ-34",
+      "text": "Update branding-related static asset references so the header/footer logo images and hero background no longer reference SentinelAI-named assets (e.g., `/assets/generated/sentinelai-...`) and ensure all referenced assets load without 404s after deployment.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "recent-messages-2"
+          "msg-4"
         ],
         "quotes": [
-          "fix the record on everything"
+          "I don't want nothing on the website that says sentinel ai"
         ]
       },
       "acceptanceCriteria": [
-        "All referenced static asset URLs resolve successfully (no 404s) in the deployed environment.",
-        "Hero/background and logo assets (if referenced) load correctly in both light and dark mode contexts.",
-        "No static assets are served through the backend; assets remain in the frontend public directory pathing."
+        "No `<img>` tags or CSS `backgroundImage` URLs in rendered pages reference filenames containing `sentinelai`.",
+        "All images referenced by the UI return HTTP 200 (no 404s) after deployment.",
+        "The site favicon and social images remain valid and render correctly."
+      ]
+    },
+    {
+      "id": "REQ-35",
+      "text": "Adjust Contact section copy and presentation so the website does not visually display the string “SentinelAI” anywhere, including the visible email address and auto-generated email subject/body text, while preserving the existing mailto destination behavior to the provided email address unless the user provides a replacement email.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "I don't want nothing on the website that says sentinel ai"
+        ]
+      },
+      "acceptanceCriteria": [
+        "The Contact section contains no visible “SentinelAI” text, including in success messages and helper paragraphs.",
+        "Submitting the contact form still opens the user’s email client via `mailto:` and includes a sensible subject/body that uses “Nexus Forge AI” branding.",
+        "The mailto destination remains functional and unchanged unless explicitly updated by the user."
+      ]
+    },
+    {
+      "id": "REQ-36",
+      "text": "Fix the Motoko Assistant backend so the service reports ready/healthy and can answer questions reliably without trapping. Specifically: ensure `healthy()` returns `true` when the assistant knowledge base is usable, seed or persist a non-empty curated knowledge base on-canister, and change `getAnswer(question)` to never `trap` (including for unknown questions) and instead return a deterministic, user-friendly English fallback answer branded as “Nexus Forge AI”.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "fix the assistant service so is ready and working 100 percent all implemented it says Assistant service is not ready"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Calling `healthy()` from the frontend health hook results in `status: healthy` under normal operation (no “Assistant service is not ready” for a properly deployed canister).",
+        "`getAnswer` does not trap for any input (empty/unknown/partial matches); it returns a safe English message for unknown questions.",
+        "The Assistant section can submit a question and receive an answer end-to-end on the deployed site without errors.",
+        "Backend logic remains within the single main actor (`backend/main.mo`); add/adjust `backend/migration.mo` only if required to preserve/upgrade existing stable state."
       ]
     }
   ],
   "constraints": [
-    "Do not edit files in frontend immutablePaths (frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui).",
-    "Keep the demo URL behavior unchanged: https://nexusforgeai.base44.app/Chat must remain the external demo destination where currently used.",
-    "Respect the single-actor Motoko architecture; keep all Motoko logic in backend/main.mo and add migration only if existing stable state would otherwise break."
+    "Do not change the demo URL behavior (keep linking to https://nexusforgeai.base44.app/Chat).",
+    "Do not edit files under `frontend/src/components/ui` or any paths listed as immutable in SYSTEM_CONTEXT.",
+    "Backend must remain a single-actor Motoko canister; keep all logic in `backend/main.mo` and only introduce `backend/migration.mo` changes if a state upgrade is necessary."
   ],
   "nonGoals": [
-    "Do not introduce new product features beyond what is required to restore successful build/deploy and verify operability.",
-    "Do not add third-party services (analytics, email providers, external databases, or third-party auth).",
-    "Do not redesign the site or change marketing copy except where strictly necessary to fix broken UI behavior or errors."
+    "Adding third-party services or external databases for assistant knowledge storage.",
+    "Introducing new auth providers beyond Internet Identity.",
+    "Changing site structure/section order beyond what is required to remove “SentinelAI” text and fix assistant readiness.",
+    "Adding new marketing sections or new product features unrelated to branding removal and assistant readiness."
   ],
   "imageRequirements": {
     "required": [],

@@ -90,10 +90,25 @@ export class ExternalBlob {
     }
 }
 export interface backendInterface {
+    getAnswer(question: string): Promise<string>;
     healthy(): Promise<boolean>;
 }
 export class Backend implements backendInterface {
     constructor(private actor: ActorSubclass<_SERVICE>, private _uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, private _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, private processError?: (error: unknown) => never){}
+    async getAnswer(arg0: string): Promise<string> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getAnswer(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getAnswer(arg0);
+            return result;
+        }
+    }
     async healthy(): Promise<boolean> {
         if (this.processError) {
             try {

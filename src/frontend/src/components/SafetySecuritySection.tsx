@@ -80,20 +80,8 @@ export function SafetySecuritySection() {
               Safety & Security
             </h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              Security and privacy are not optional features—they're fundamental to how SentinelAI is built and operated. We implement industry best practices to protect your data and maintain your trust.
+              Security and privacy are not optional features—they're fundamental to how Nexus Forge AI is built and operated. We implement industry best practices to protect your data and maintain your trust.
             </p>
-          </div>
-
-          <div className="bg-warning/10 border-2 border-warning p-6">
-            <div className="flex items-start space-x-3">
-              <AlertCircle className="h-6 w-6 text-warning flex-shrink-0 mt-1" />
-              <div className="space-y-2">
-                <h3 className="font-semibold text-lg">Important Disclaimer</h3>
-                <p className="text-sm text-muted-foreground">
-                  While we implement robust security practices and follow industry standards, no system can guarantee absolute security. We describe our practices and policies transparently so you can make informed decisions about using SentinelAI. We continuously work to improve our security posture and welcome feedback from security researchers.
-                </p>
-              </div>
-            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

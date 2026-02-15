@@ -111,7 +111,7 @@ export function UseCasesSection() {
               Built for All Industries
             </h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              SentinelAI is designed to serve companies across every sector. Whether you're a startup, enterprise, government agency, or non-profit, our AI capabilities adapt to your unique needs.
+              Nexus Forge AI is designed to serve companies across every sector. Whether you're a startup, enterprise, government agency, or non-profit, our AI capabilities adapt to your unique needs.
             </p>
           </div>
 
@@ -160,7 +160,7 @@ export function UseCasesSection() {
 
           <div className="text-center pt-8">
             <p className="text-muted-foreground mb-4">
-              Don't see your industry? SentinelAI's flexible capabilities work across sectors.
+              Don't see your industry? Nexus Forge AI's flexible capabilities work across sectors.
             </p>
             <button
               onClick={() => {

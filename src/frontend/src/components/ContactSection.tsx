@@ -26,7 +26,7 @@ export function ContactSection() {
     
     try {
       // Construct mailto link with form data
-      const subject = encodeURIComponent(`SentinelAI Inquiry from ${formData.company || formData.name}`);
+      const subject = encodeURIComponent(`Nexus Forge AI Inquiry from ${formData.company || formData.name}`);
       const body = encodeURIComponent(
         `Name: ${formData.name}\nEmail: ${formData.email}\nCompany: ${formData.company}\n\nMessage:\n${formData.message}`
       );
@@ -73,7 +73,7 @@ export function ContactSection() {
               Get in Touch
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Ready to explore how SentinelAI can transform your organization? Contact us to schedule a demo, request access, or ask questions.
+              Ready to explore how Nexus Forge AI can transform your organization? Contact us to schedule a demo, request access, or ask questions.
             </p>
           </div>
 
@@ -91,10 +91,7 @@ export function ContactSection() {
                     <Alert className="mb-6 border-2 border-success bg-success/10">
                       <CheckCircle2 className="h-5 w-5 text-success" />
                       <AlertDescription className="ml-2">
-                        Your email client should open with a pre-filled message. If not, please email us directly at{' '}
-                        <a href="mailto:SentinelAI@usa.com" className="font-medium underline">
-                          SentinelAI@usa.com
-                        </a>
+                        Your email client should open with a pre-filled message. If not, please email us directly.
                       </AlertDescription>
                     </Alert>
                   )}
@@ -148,15 +145,19 @@ export function ContactSection() {
                         value={formData.message}
                         onChange={handleChange}
                         required
-                        placeholder="Tell us about your needs, questions, or how we can help..."
-                        rows={6}
+                        placeholder="Tell us about your needs and how we can help..."
+                        className="min-h-[150px] resize-none"
                         disabled={isSubmitting}
                       />
                     </div>
 
-                    <Button type="submit" size="lg" className="w-full font-semibold" disabled={isSubmitting}>
-                      <Send className="mr-2 h-5 w-5" />
-                      {isSubmitting ? 'Sending...' : 'Send Message'}
+                    <Button
+                      type="submit"
+                      className="w-full"
+                      disabled={isSubmitting}
+                    >
+                      <Send className="mr-2 h-4 w-4" />
+                      Send Message
                     </Button>
                   </form>
                 </CardContent>
@@ -166,62 +167,54 @@ export function ContactSection() {
             <div className="space-y-6">
               <Card className="border-2">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Mail className="h-5 w-5 text-success" />
-                    Email Us
-                  </CardTitle>
+                  <div className="h-12 w-12 border-2 border-primary bg-primary/5 flex items-center justify-center mb-2">
+                    <Mail className="h-6 w-6 text-primary" />
+                  </div>
+                  <CardTitle className="text-lg">Email Us</CardTitle>
+                  <CardDescription>
+                    Send us an email and we'll respond within 24 hours
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-muted-foreground mb-3">
-                    Prefer to email directly? Reach out to us at:
-                  </p>
                   <a
                     href="mailto:SentinelAI@usa.com"
-                    className="text-lg font-semibold text-success hover:underline break-all"
+                    className="text-sm font-medium text-primary hover:underline"
                   >
-                    SentinelAI@usa.com
+                    Contact Us
                   </a>
                 </CardContent>
               </Card>
 
               <Card className="border-2">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Building2 className="h-5 w-5 text-foreground" />
-                    Request Access
-                  </CardTitle>
+                  <div className="h-12 w-12 border-2 border-primary bg-primary/5 flex items-center justify-center mb-2">
+                    <Building2 className="h-6 w-6 text-primary" />
+                  </div>
+                  <CardTitle className="text-lg">Enterprise Sales</CardTitle>
+                  <CardDescription>
+                    Discuss custom solutions and enterprise pricing
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground">
-                    Interested in enterprise access? Contact us to discuss your organization's needs and get started.
+                    Contact our sales team for volume licensing and custom deployments
                   </p>
                 </CardContent>
               </Card>
 
               <Card className="border-2">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Calendar className="h-5 w-5 text-foreground" />
-                    Schedule a Demo
-                  </CardTitle>
+                  <div className="h-12 w-12 border-2 border-primary bg-primary/5 flex items-center justify-center mb-2">
+                    <MessageSquare className="h-6 w-6 text-primary" />
+                  </div>
+                  <CardTitle className="text-lg">Support</CardTitle>
+                  <CardDescription>
+                    Get help with technical questions and implementation
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground">
-                    Want a personalized walkthrough? Email us to schedule a live demo with our team.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="border-2">
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <MessageSquare className="h-5 w-5 text-foreground" />
-                    General Inquiries
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">
-                    Have questions about pricing, features, or integrations? We're here to help.
+                    Our support team is available to assist with your questions
                   </p>
                 </CardContent>
               </Card>

@@ -29,6 +29,7 @@ export function SiteHeader() {
 
   const navItems = [
     { label: 'Overview', id: 'hero' },
+    { label: 'Assistant', id: 'assistant' },
     { label: 'Capabilities', id: 'capabilities' },
     { label: 'How It Works', id: 'how-it-works' },
     { label: 'Safety & Security', id: 'safety-security' },
@@ -48,19 +49,19 @@ export function SiteHeader() {
           <button
             onClick={() => scrollToSection('hero')}
             className="flex items-center space-x-3 focus:outline-none focus:ring-2 focus:ring-ring"
-            aria-label="SentinelAI Home"
+            aria-label="Nexus Forge AI Home"
           >
             <img
-              src="/assets/generated/sentinelai-logo-light.dim_512x512.png"
-              alt="SentinelAI Logo"
+              src="/assets/generated/nexusforgeai-logo-light.dim_512x512.png"
+              alt="Nexus Forge AI Logo"
               className="h-8 w-8 dark:hidden"
             />
             <img
-              src="/assets/generated/sentinelai-logo-dark.dim_512x512.png"
-              alt="SentinelAI Logo"
+              src="/assets/generated/nexusforgeai-logo-dark.dim_512x512.png"
+              alt="Nexus Forge AI Logo"
               className="h-8 w-8 hidden dark:block"
             />
-            <span className="text-xl font-bold tracking-tight">SentinelAI</span>
+            <span className="text-xl font-bold tracking-tight">Nexus Forge AI</span>
           </button>
 
           <nav className="hidden md:flex items-center space-x-1">

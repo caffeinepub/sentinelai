@@ -1,69 +1,59 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-15T22:59:01.266Z",
-  "summary": "Diff implements a minimal backend health query and a frontend banner-based reachability check, plus several frontend runtime hardening changes (scroll-to-section try/catch, defensive rendering, mailto form). However, the diff summary does not show any concrete changes addressing the stated deployment failure root cause, nor any audit/fix of missing static assets beyond referencing specific /assets/generated paths.",
+  "generatedAt": "2026-02-15T23:26:35.676Z",
+  "summary": "Branding was largely updated to “Nexus Forge AI” in several key UI components and the backend assistant was changed to return non-trapping, branded fallback answers with `healthy()` returning `true`. However, at least one explicit “SentinelAI” string remains in the frontend (Contact mailto destination), which likely violates the branding purge requirements and search-based acceptance criteria.",
   "missing_requirements": [
     {
-      "id": "REQ-19",
-      "requirement": "Identify and fix the root cause of the deployment failure so the project can build and deploy successfully end-to-end (frontend bundling + Motoko compilation; deploy succeeds; no new build-time warnings).",
-      "reason": "The diff summary shows UI/runtime adjustments and a new health-check method, but does not include any build/deploy pipeline, configuration, dependency, or import/path fixes that would clearly resolve an end-to-end deployment failure. Without evidence of changes to build tooling/config or the failing area, this requirement is not demonstrably implemented.",
+      "id": "REQ-33",
+      "requirement": "Remove all user-facing occurrences of “SentinelAI” from the website UI/content so a case-insensitive search across `frontend/src` returns no matches in user-facing content.",
+      "reason": "The diff still contains the string “SentinelAI” in frontend source, which would fail a repo-wide search check and risks rendering/exposing it (e.g., via mailto destination).",
       "evidence": [
-        "backend/main.mo",
-        "frontend/src/App.tsx",
-        "frontend/src/components/*",
-        "frontend/index.html",
-        "frontend-file-summaries.txt"
+        "frontend/src/components/ContactSection.tsx (mailtoLink = `mailto:SentinelAI@usa.com?...`)"
       ]
     },
     {
-      "id": "REQ-22",
-      "requirement": "Audit and fix broken/missing static assets (especially under /assets/generated) so images load without 404s after deployment; ensure hero/background and logo assets load in light/dark; keep assets served from frontend public pathing.",
-      "reason": "Multiple components reference specific generated asset paths, but the diff summary does not show any added/updated asset files under a public assets directory, nor any changes that ensure those referenced files exist. Therefore the asset audit/fix is not evidenced as completed.",
+      "id": "REQ-35",
+      "requirement": "Ensure the Contact section does not visually display “SentinelAI” anywhere (including visible email address and auto-generated subject/body text) while preserving the mailto destination behavior unless replaced.",
+      "reason": "The Contact section constructs a `mailto:` URL containing `SentinelAI@usa.com`, leaving “SentinelAI” present in Contact section logic and potentially exposed to users; this also conflicts with the requirement to avoid visually displaying the string anywhere in the contact experience.",
       "evidence": [
-        "frontend/src/components/HeroSection.tsx (references /assets/generated/sentinelai-hero-bg.dim_1920x1080.png)",
-        "frontend/src/components/SiteHeader.tsx (references /assets/generated/sentinelai-logo-light.dim_512x512.png and -dark)",
-        "frontend/src/components/SiteFooter.tsx (references /assets/generated/sentinelai-logo-light.dim_512x512.png and -dark)",
-        "frontend/index.html (favicon + OG/Twitter image references /assets/generated/sentinelai-logo-light.dim_512x512.png)"
+        "frontend/src/components/ContactSection.tsx (mailtoLink = `mailto:SentinelAI@usa.com?subject=...&body=...`)"
+      ]
+    },
+    {
+      "id": "REQ-36",
+      "requirement": "Seed or persist a non-empty curated knowledge base on-canister and have `healthy()` return `true` when the knowledge base is usable.",
+      "reason": "While a non-empty in-memory Map is seeded and `healthy()` returns `true`, the diff does not show any stable persistence or upgrade-safe storage for the knowledge base (no stable vars / migration shown). If persistence across upgrades is required, this is not evidenced in the diff summary.",
+      "evidence": [
+        "backend/main.mo (content Map seeded, but no stable storage shown)"
       ]
     }
   ],
   "hallucinated_features": [
     {
-      "description": "Broad visual/theme redesign (e.g., “government-grade design tokens”, OKLCH palette, reduced radius) beyond what is required for build/deploy stabilization and smoke-test fixes.",
-      "reason": "The BuildRequest explicitly lists as a non-goal to redesign the site or change marketing copy except where strictly necessary to fix broken UI behavior/errors. The diff summary indicates substantial theme work in global styles and Tailwind configuration, which is not requested by REQ-19..22.",
+      "description": "Broad UI/theme/SEO and non-requested section/content changes (e.g., “government-grade design tokens”, SEO metadata, content rewrites across multiple sections beyond the specified branding-removal targets).",
+      "reason": "BuildRequest focused on purging “SentinelAI” branding, updating SentinelAI-named asset references, Contact copy, and fixing backend assistant readiness. The diff summary indicates additional redesign/content/SEO work beyond what was requested.",
       "evidence": [
-        "frontend-file-summaries.txt (mentions changes to frontend/src/index.css and frontend/tailwind.config.js)"
-      ]
-    },
-    {
-      "description": "Additional SEO/Open Graph/Twitter metadata changes in the HTML entry point.",
-      "reason": "Not requested by REQ-19..22 (which focus on build/deploy, runtime smoke test, backend health surface, and static asset fixes).",
-      "evidence": [
-        "frontend/index.html"
-      ]
-    },
-    {
-      "description": "Footer additions such as “Caffeine.ai attribution with UTM tracking” and “valid external social links”.",
-      "reason": "Not requested by REQ-19..22; also risks violating the non-goal of changing marketing/copy except to fix broken behavior.",
-      "evidence": [
-        "frontend-file-summaries.txt (describes SiteFooter.tsx additions)",
-        "frontend/src/components/SiteFooter.tsx (modified; truncated)"
+        "frontend-file-summaries.txt (mentions index.css government-grade design tokens, tailwind theme changes, index.html SEO/OG updates, extensive section aesthetic/content changes)"
       ]
     }
   ],
-  "confidence": 0.62,
+  "confidence": 0.74,
   "changed_files": [
     "backend/main.mo",
     "frontend-file-summaries.txt",
-    "frontend/index.html",
-    "frontend/src/App.tsx",
-    "frontend/src/components/BackendHealthBanner.tsx",
+    "frontend/src/components/AssistantSection.tsx",
+    "frontend/src/components/CapabilitiesSection.tsx",
     "frontend/src/components/ContactSection.tsx",
+    "frontend/src/components/FAQSection.tsx",
     "frontend/src/components/HeroSection.tsx",
+    "frontend/src/components/HowItWorksSection.tsx",
+    "frontend/src/components/SafetySecuritySection.tsx",
     "frontend/src/components/SiteFooter.tsx",
     "frontend/src/components/SiteHeader.tsx",
     "frontend/src/components/TryDemoSection.tsx",
+    "frontend/src/components/UseCasesSection.tsx",
+    "frontend/src/content/howItWorks.ts",
     "project_state.json"
   ]
 }

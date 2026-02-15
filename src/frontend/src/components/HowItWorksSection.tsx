@@ -13,7 +13,7 @@ export function HowItWorksSection() {
               How It Works
             </h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              Understanding the SentinelAI workflow from initial testing to full deployment. Our process is designed to be transparent, secure, and straightforward.
+              Understanding the Nexus Forge AI workflow from initial testing to full deployment. Our process is designed to be transparent, secure, and straightforward.
             </p>
           </div>
 
@@ -51,7 +51,7 @@ export function HowItWorksSection() {
                 <h3 className="text-2xl font-bold">Safe Testing Practices</h3>
               </div>
               <p className="text-muted-foreground max-w-2xl mx-auto">
-                Follow these guidelines to ensure secure and effective evaluation of SentinelAI.
+                Follow these guidelines to ensure secure and effective evaluation of Nexus Forge AI.
               </p>
             </div>
 

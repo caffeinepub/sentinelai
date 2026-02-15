@@ -1,16 +1,21 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 11,
+  "projectStateVersion": 19,
   "summary": "Rename the website/product to Nexus Forge AI and add an on-site AI assistant that answers visitor questions with real, working logic, while maintaining the professional government-grade marketing/explainer site requirements (capabilities, safe testing guidance, demo link, contact details).",
   "architectural_notes": [
     "Website should clearly explain app purpose, how it works, and every capability; include guidance for safe testing by companies; include contact email SentinelAI@usa.com and link to https://nexusforgeai.base44.app/Chat.",
     "Adopt 'Option A' government-grade design language: flat/minimal/authoritative styling, hard lines, increased whitespace and hierarchy, muted graphite/off-white palette with subtle green accent; avoid gradients, glows, and overly 'AI-generated' aesthetics.",
     "Ensure the 'Try Demo' section/background uses restrained accent colors (avoid large green fills) to maintain the formal government-grade look and avoid an 'AI-made' aesthetic.",
     "Update site/product name to “Nexus Forge AI” across all pages/metadata/branding.",
-    "Add an on-site AI assistant/chat component that answers visitor questions (functional, real logic; production-ready with no runtime errors)."
+    "Add an on-site AI assistant/chat component that answers visitor questions (functional, real logic; production-ready with no runtime errors).",
+    "Ensure zero occurrences of the old brand name “SentinelAI” anywhere on the live site/UI/metadata/content; all branding must read “Nexus Forge AI” consistently."
   ],
   "known_issues": [
-    "Deployment failed during build/deploy step (\"Something went wrong with the deployment\")."
+    "Deployment failed during build/deploy step (\"Something went wrong with the deployment\").",
+    "On-site AI assistant widget/UI does not appear on the live site.",
+    "AI assistant fails with IC replica rejection (Reject code 5, IC0508) because backend canister 5bwdt-cyaaa-aaaan-q2pka-cai is stopped when calling getAnswer.",
+    "Live site still shows “SentinelAI” branding across the page; rename/branding changes to “Nexus Forge AI” did not apply or are incomplete.",
+    "Assistant UI reports “Assistant service is not ready” indicating the backend service/health readiness is failing or not correctly detected by the frontend."
   ],
   "isFixRequest": true,
   "existing_features": [
@@ -181,6 +186,94 @@
         "REQ-22"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-make-the-on-site-ai-assistant-visibly-render-on-the-website-and-work-end-to-end-with-no-runtime-errors-add-a-dedicated-assistant-section-component-to-the-single-page-layout-ensure-it-is-reachable-visible-on-initial-page-load-and-ensure-user-questions-can-be-submitted-and-answered-with-robust-loading-error-states",
+      "title": "Make the on-site AI assistant visibly render on the website and work end-to-end with no runtime errors: add a dedicated assistant section/component to the single-page layout, ensure it is reachable/visible on initial page load, and ensure user questions can be submitted and answered with robust loading/error states.",
+      "reqIds": [
+        "REQ-23"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-remove-the-on-page-demo-environment-disclaimer-block-text-from-the-try-demo-section-so-it-no-longer-appears-anywhere-on-the-website",
+      "title": "Remove the on-page “Demo Environment” disclaimer block text from the Try Demo section so it no longer appears anywhere on the website.",
+      "reqIds": [
+        "REQ-25"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-remove-the-text-analysis-demo-prompt-block-from-the-try-demo-suggested-prompts-so-it-no-longer-appears-on-the-page",
+      "title": "Remove the “Text Analysis” demo prompt block from the Try Demo suggested prompts so it no longer appears on the page.",
+      "reqIds": [
+        "REQ-26"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-remove-the-important-disclaimer-block-and-its-disclaimer-paragraph-from-the-safety-security-section-so-it-no-longer-appears-anywhere-on-the-website",
+      "title": "Remove the “Important Disclaimer” block and its disclaimer paragraph from the Safety & Security section so it no longer appears anywhere on the website.",
+      "reqIds": [
+        "REQ-27"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-browser-page-title-and-social-seo-metadata-in-frontend-index-html-to-use-nexus-forge-ai-instead-of-sentinelai-this-includes-the-title-tag-and-any-og-title-twitter-title-meta-tags-that-currently-mention-sentinelai",
+      "title": "Update the browser page title and social/SEO metadata in `frontend/index.html` to use “Nexus Forge AI” instead of “SentinelAI”. This includes the `<title>` tag and any `og:title` / `twitter:title` meta tags that currently mention “SentinelAI”.",
+      "reqIds": [
+        "REQ-28"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-backend-health-surface-in-backend-main-mo-so-the-frontend-can-reliably-detect-when-the-assistant-api-is-actually-usable-not-merely-that-the-canister-responds-and-use-this-to-prevent-the-ui-from-attempting-getanswer-calls-when-the-backend-is-unavailable",
+      "title": "Update the backend health surface in `backend/main.mo` so the frontend can reliably detect when the assistant API is actually usable (not merely that the canister responds), and use this to prevent the UI from attempting `getAnswer` calls when the backend is unavailable.",
+      "reqIds": [
+        "REQ-30"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-improve-frontend-error-handling-for-replica-rejection-errors-including-ic0508-reject-code-5-so-the-assistant-section-shows-a-clear-user-facing-english-message-explaining-the-service-is-temporarily-unavailable-and-does-not-present-raw-replica-cbor-debug-details-to-end-users",
+      "title": "Improve frontend error handling for replica rejection errors (including IC0508 / reject code 5) so the Assistant section shows a clear, user-facing English message explaining the service is temporarily unavailable, and does not present raw replica/cbor/debug details to end users.",
+      "reqIds": [
+        "REQ-31"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-run-an-end-to-end-smoke-test-after-changes-to-confirm-the-deployed-backend-canister-is-running-and-the-assistant-section-works-end-to-end-submit-question-receive-answer-without-runtime-errors",
+      "title": "Run an end-to-end smoke test after changes to confirm the deployed backend canister is running and the Assistant section works end-to-end (submit question → receive answer) without runtime errors.",
+      "reqIds": [
+        "REQ-32"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-remove-all-user-facing-occurrences-of-the-sentinelai-name-from-the-website-ui-and-replace-them-with-nexus-forge-ai-ensuring-that-no-visible-text-aria-labels-alt-text-headings-paragraphs-helper-text-or-cta-copy-on-any-section-renders-sentinelai-at-minimum-update-the-known-remaining-occurrences-in-frontend-src-components-siteheader-tsx-frontend-src-components-sitefooter-tsx-frontend-src-components-herosection-tsx-frontend-src-components-assistantsection-tsx-frontend-src-components-faqsection-tsx-frontend-src-components-usecasessection-tsx-and-frontend-src-components-contactsection-tsx",
+      "title": "Remove all user-facing occurrences of the “SentinelAI” name from the website UI and replace them with “Nexus Forge AI”, ensuring that no visible text, aria-labels, alt text, headings, paragraphs, helper text, or CTA copy on any section renders “SentinelAI”. At minimum, update the known remaining occurrences in: `frontend/src/components/SiteHeader.tsx`, `frontend/src/components/SiteFooter.tsx`, `frontend/src/components/HeroSection.tsx`, `frontend/src/components/AssistantSection.tsx`, `frontend/src/components/FAQSection.tsx`, `frontend/src/components/UseCasesSection.tsx`, and `frontend/src/components/ContactSection.tsx`.",
+      "reqIds": [
+        "REQ-33"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-branding-related-static-asset-references-so-the-header-footer-logo-images-and-hero-background-no-longer-reference-sentinelai-named-assets-e-g-assets-generated-sentinelai-and-ensure-all-referenced-assets-load-without-404s-after-deployment",
+      "title": "Update branding-related static asset references so the header/footer logo images and hero background no longer reference SentinelAI-named assets (e.g., `/assets/generated/sentinelai-...`) and ensure all referenced assets load without 404s after deployment.",
+      "reqIds": [
+        "REQ-34"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-adjust-contact-section-copy-and-presentation-so-the-website-does-not-visually-display-the-string-sentinelai-anywhere-including-the-visible-email-address-and-auto-generated-email-subject-body-text-while-preserving-the-existing-mailto-destination-behavior-to-the-provided-email-address-unless-the-user-provides-a-replacement-email",
+      "title": "Adjust Contact section copy and presentation so the website does not visually display the string “SentinelAI” anywhere, including the visible email address and auto-generated email subject/body text, while preserving the existing mailto destination behavior to the provided email address unless the user provides a replacement email.",
+      "reqIds": [
+        "REQ-35"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -213,6 +306,42 @@
       "summary": "Implement the AI assistant’s answering logic as real backend functionality in Motoko (no placeholder responses), exposing a canister method that accepts a user question and returns an answer derived from a curated on-site knowledge base (site content/FAQs/capabilities/safe testing guidance).",
       "reqIds": [
         "REQ-17"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-9",
+      "summary": "Fix the on-site AI assistant so it visibly renders on the website and works reliably end-to-end with no runtime errors.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-10",
+      "summary": "Remove the on-page 'Demo Environment' block (test environment disclaimer + text analysis prompt/example) and remove the 'Important Disclaimer' security disclaimer text from the website content.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-12",
+      "summary": "Implement or repair the Motoko backend assistant API used by the website so the assistant can answer questions reliably, and ensure the frontend calls the correct canister method signature using the existing actor/auth setup pattern.",
+      "reqIds": [
+        "REQ-24"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-13",
+      "summary": "Implement a production-ready Motoko `getAnswer(question: Text) : async Text` in `backend/main.mo` that does not trap on mainnet and returns a deterministic, non-placeholder answer derived from an on-canister curated knowledge base (site FAQs/capabilities/how-it-works/safe testing guidance).",
+      "reqIds": [
+        "REQ-29"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-17",
+      "summary": "Fix the Motoko Assistant backend so the service reports ready/healthy and can answer questions reliably without trapping. Specifically: ensure `healthy()` returns `true` when the assistant knowledge base is usable, seed or persist a non-empty curated knowledge base on-canister, and change `getAnswer(question)` to never `trap` (including for unknown questions) and instead return a deterministic, user-friendly English fallback answer branded as “Nexus Forge AI”.",
+      "reqIds": [
+        "REQ-36"
       ],
       "status": "pending"
     }

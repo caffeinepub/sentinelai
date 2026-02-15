@@ -17,9 +17,9 @@ export function SiteFooter() {
 
   const getAppIdentifier = () => {
     if (typeof window !== 'undefined') {
-      return encodeURIComponent(window.location.hostname || 'sentinelai-app');
+      return encodeURIComponent(window.location.hostname || 'nexusforgeai-app');
     }
-    return 'sentinelai-app';
+    return 'nexusforgeai-app';
   };
 
   return (
@@ -29,16 +29,16 @@ export function SiteFooter() {
           <div className="space-y-4">
             <div className="flex items-center space-x-3">
               <img
-                src="/assets/generated/sentinelai-logo-light.dim_512x512.png"
-                alt="SentinelAI Logo"
+                src="/assets/generated/nexusforgeai-logo-light.dim_512x512.png"
+                alt="Nexus Forge AI Logo"
                 className="h-8 w-8 dark:hidden"
               />
               <img
-                src="/assets/generated/sentinelai-logo-dark.dim_512x512.png"
-                alt="SentinelAI Logo"
+                src="/assets/generated/nexusforgeai-logo-dark.dim_512x512.png"
+                alt="Nexus Forge AI Logo"
                 className="h-8 w-8 hidden dark:block"
               />
-              <span className="text-lg font-bold">SentinelAI</span>
+              <span className="text-lg font-bold">Nexus Forge AI</span>
             </div>
             <p className="text-sm text-muted-foreground">
               Professional AI solutions for all types of companies. Safe, secure, and powerful.
@@ -122,7 +122,7 @@ export function SiteFooter() {
                 href="mailto:SentinelAI@usa.com"
                 className="hover:text-foreground transition-colors"
               >
-                SentinelAI@usa.com
+                Contact Us
               </a>
             </p>
             <div className="flex space-x-4">
@@ -160,7 +160,7 @@ export function SiteFooter() {
         <div className="mt-12 pt-8 border-t border-border">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-sm text-muted-foreground">
-              © {currentYear} SentinelAI. All rights reserved.
+              © {currentYear} Nexus Forge AI. All rights reserved.
             </p>
             <p className="text-sm text-muted-foreground flex items-center">
               Built with <Heart className="h-4 w-4 mx-1 text-success fill-success" /> using{' '}

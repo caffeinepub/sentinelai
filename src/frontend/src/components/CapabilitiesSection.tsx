@@ -12,7 +12,7 @@ export function CapabilitiesSection() {
               Comprehensive AI Capabilities
             </h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              SentinelAI provides a full suite of AI capabilities designed for professional use across all industries. Every feature is built with security, accuracy, and reliability in mind.
+              Nexus Forge AI provides a full suite of AI capabilities designed for professional use across all industries. Every feature is built with security, accuracy, and reliability in mind.
             </p>
           </div>
 

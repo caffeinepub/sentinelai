@@ -31,7 +31,7 @@ export const workflowSteps = [
   },
   {
     title: 'Deploy & Scale',
-    description: 'Implement SentinelAI in your organization',
+    description: 'Implement Nexus Forge AI in your organization',
     details: [
       'Choose deployment model (cloud, on-premise, hybrid)',
       'Complete integration with existing systems',

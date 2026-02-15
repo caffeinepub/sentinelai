@@ -1,8 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { ExternalLink, AlertTriangle, Sparkles } from 'lucide-react';
-import { suggestedPrompts, demoDisclaimer } from '../content/tryDemo';
+import { ExternalLink, Sparkles } from 'lucide-react';
+import { suggestedPrompts } from '../content/tryDemo';
 
 export function TryDemoSection() {
   const prompts = Array.isArray(suggestedPrompts) ? suggestedPrompts : [];
@@ -13,19 +12,12 @@ export function TryDemoSection() {
         <div className="max-w-5xl mx-auto space-y-12">
           <div className="text-center space-y-4">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight">
-              Experience SentinelAI
+              Experience Nexus Forge AI
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Test our AI capabilities in a safe, controlled environment. Try these suggested prompts to explore what SentinelAI can do.
+              Test our AI capabilities in a safe, controlled environment. Try these suggested prompts to explore what Nexus Forge AI can do.
             </p>
           </div>
-
-          <Alert className="border-2 border-border bg-muted/50">
-            <AlertTriangle className="h-5 w-5 text-muted-foreground" />
-            <AlertDescription className="text-sm ml-2">
-              <strong>Demo Environment:</strong> {demoDisclaimer}
-            </AlertDescription>
-          </Alert>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {prompts.map((prompt, index) => (

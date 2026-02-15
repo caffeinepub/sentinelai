@@ -1,12 +1,12 @@
 # Specification
 
 ## Summary
-**Goal:** Restore successful end-to-end build and deployment, fix any runtime issues found in a full single-page smoke test, and add a minimal backend health check with a clear frontend failure state.
+**Goal:** Remove all “SentinelAI” branding from the UI/assets and make the Motoko Assistant service report healthy and answer questions reliably under the “Nexus Forge AI” brand.
 
 **Planned changes:**
-- Identify and fix the root cause(s) of build/deploy failure so frontend bundling and Motoko compilation succeed and deployment completes without errors.
-- Smoke-test the SPA and fix runtime issues so all sections render, header navigation scroll targets work, external demo links open correctly in a new tab, and the contact form triggers a mailto flow without console errors.
-- Add a minimal, non-breaking backend query health method and wire a lightweight frontend check that shows a user-friendly message when the backend is unreachable (without modifying immutable hook/UI files).
-- Audit and fix any broken/missing static asset references (especially under `/assets/generated`) so images load without 404s in deployed light/dark contexts.
+- Replace all user-facing occurrences of “SentinelAI” with “Nexus Forge AI” across the frontend (including visible text, headings, helper copy, CTA text, `alt` text, and `aria-label`s), specifically updating the remaining known components: `SiteHeader`, `SiteFooter`, `HeroSection`, `AssistantSection`, `FAQSection`, `UseCasesSection`, and `ContactSection`.
+- Update branding-related static asset references so no rendered `<img>` or CSS background URLs reference filenames containing `sentinelai`, and ensure all referenced assets load without 404s (including header/footer logos and hero background).
+- Update Contact section copy so no visible email address text or mailto subject/body text contains “SentinelAI”, while keeping the existing `mailto:` destination behavior unchanged unless a new email is provided.
+- Fix the Motoko Assistant backend so `healthy()` reports ready when the knowledge base is usable, ensure a non-empty curated knowledge base exists on-canister (seeded/persisted), and make `getAnswer(question)` never trap—returning a deterministic, user-friendly English fallback branded as “Nexus Forge AI” for unknown inputs.
 
-**User-visible outcome:** The site deploys successfully, all sections and navigation work without console errors, demo links open the correct external URL, the contact form works via mailto, images load properly, and users see a clear message if the backend is unreachable.
+**User-visible outcome:** The site shows zero instances of “SentinelAI”, uses “Nexus Forge AI” branding and non-SentinelAI asset filenames throughout, and the Assistant section works end-to-end with the backend reporting healthy and returning answers (or a safe branded fallback) without errors.

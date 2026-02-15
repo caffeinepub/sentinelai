@@ -14,19 +14,7 @@ export function HeroSection() {
   };
 
   return (
-    <section id="hero" className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-      <div
-        className="absolute inset-0 z-0"
-        style={{
-          backgroundImage: 'url(/assets/generated/sentinelai-hero-bg.dim_1920x1080.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-        }}
-      >
-        <div className="absolute inset-0 bg-background/85" />
-      </div>
-
+    <section id="hero" className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-background via-muted/20 to-background">
       <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="max-w-4xl mx-auto text-center space-y-8">
           <div className="inline-flex items-center space-x-2 px-4 py-2 border-2 border-border bg-card">
@@ -42,7 +30,7 @@ export function HeroSection() {
           </h1>
 
           <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            SentinelAI delivers powerful, secure AI capabilities designed for businesses of all types—from startups to enterprises, government agencies to private companies. Test safely, deploy confidently.
+            Nexus Forge AI delivers powerful, secure AI capabilities designed for businesses of all types—from startups to enterprises, government agencies to private companies. Test safely, deploy confidently.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">

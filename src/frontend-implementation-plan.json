@@ -1,152 +1,158 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Stabilize frontend build/deploy and complete SPA smoke-test fixes",
+  "title": "Remove SentinelAI branding and update frontend assets/copy to Nexus Forge AI",
   "requirements": [
     {
-      "id": "REQ-19",
-      "summary": "Eliminate frontend build/bundling issues that contribute to end-to-end deploy failure (imports, assets, and configuration warnings).",
+      "id": "REQ-33",
+      "summary": "Replace all user-facing “SentinelAI” UI copy with “Nexus Forge AI” across all rendered sections and attributes (alt/aria/etc.).",
       "acceptanceCriteria": [
-        "A full build completes without errors (frontend bundling and Motoko compilation).",
-        "A full deploy completes successfully with no deployment-step errors.",
-        "No new build-time warnings are introduced that indicate broken configuration (e.g., missing assets, missing environment values, broken imports)."
+        "Visually scanning the site (all sections in `frontend/src/App.tsx`) shows zero instances of the string “SentinelAI”.",
+        "A case-insensitive search for “SentinelAI” across `frontend/src` returns no matches in user-facing content, including `alt` attributes and `aria-label` values.",
+        "The brand name displayed in the header and footer reads “Nexus Forge AI”."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/App.tsx",
-          "operation": "modify",
-          "description": "Wire any new diagnostics/health UI (from REQ-21) into the single-page layout in a way that cannot break the build (e.g., guarded rendering). Ensure imports remain valid and no unused imports/types are introduced."
-        },
-        {
-          "path": "frontend/index.html",
-          "operation": "modify",
-          "description": "Audit and fix any broken static asset references in metadata (favicon/OpenGraph images) to ensure the bundler and deployed build do not reference missing files. Keep references aligned with files under frontend/public. If shadcn/ui theming or base styles rely on specific meta tags, preserve them."
-        },
-        {
           "path": "frontend/src/components/SiteHeader.tsx",
           "operation": "modify",
-          "description": "Confirm all imports resolve in the build environment (including '@/...' alias usage if present in the project). If alias resolution is the root cause, adjust this file’s imports to the project’s supported pattern (without touching immutablePaths). Ensure build produces no missing-module warnings. (Uses shadcn-ui Button; verify the component's usage instructions before implementing.)"
+          "description": "Update header brand text and all user-facing attributes to “Nexus Forge AI” (including aria-label and img alt text) and remove any remaining “SentinelAI” strings."
         },
         {
           "path": "frontend/src/components/SiteFooter.tsx",
           "operation": "modify",
-          "description": "Fix any link hrefs or imports that could cause build-time or runtime issues during deploy (e.g., placeholder href='#' for external links). Ensure external links are valid URLs and, where applicable, open safely in a new tab."
-        }
-      ]
-    },
-    {
-      "id": "REQ-20",
-      "summary": "Fix SPA runtime smoke-test issues: ensure all sections render, scroll navigation targets work, external links open correctly, and no console errors occur during normal interactions.",
-      "acceptanceCriteria": [
-        "Visiting the app shows the header, hero, try-demo, capabilities, how-it-works, safety/security, use-cases, FAQ, contact, and footer sections with no blank/undefined content.",
-        "Header navigation buttons scroll to the correct section IDs (hero, capabilities, how-it-works, safety-security, use-cases, faq, contact).",
-        "All “Try the Demo”/“Launch Demo Environment” links open https://nexusforgeai.base44.app/Chat in a new tab and do not throw errors.",
-        "Submitting the contact form triggers the mailto flow and does not throw runtime errors.",
-        "Browser console shows no uncaught exceptions during normal interaction (scrolling, opening mobile menu, clicking nav, clicking CTAs, submitting contact form)."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/components/SiteHeader.tsx",
-          "operation": "modify",
-          "description": "Smoke-test and harden navigation scrolling: ensure scrollToSection gracefully handles missing IDs (no errors), closes mobile menu safely, and targets exactly the required IDs. Preserve the demo URL behavior and target=_blank rel attributes. (Uses shadcn-ui Button; verify the component's usage instructions before implementing.)"
+          "description": "Update footer brand text/copyright and any visible helper text to “Nexus Forge AI”, removing all “SentinelAI” occurrences (including any email link display text)."
         },
         {
           "path": "frontend/src/components/HeroSection.tsx",
           "operation": "modify",
-          "description": "Verify hero section renders without errors and that background image reference is correct. Confirm the primary CTA continues to open https://nexusforgeai.base44.app/Chat in a new tab, and the Contact Sales scroll does not throw if the element is not found. (Uses shadcn-ui Button; verify the component's usage instructions before implementing.)"
+          "description": "Replace the hero marketing paragraph copy so it no longer mentions “SentinelAI” and instead references “Nexus Forge AI”, ensuring headings/paragraphs/CTAs contain no “SentinelAI”."
         },
         {
-          "path": "frontend/src/components/TryDemoSection.tsx",
+          "path": "frontend/src/components/AssistantSection.tsx",
           "operation": "modify",
-          "description": "Verify the Launch Demo Environment button opens https://nexusforgeai.base44.app/Chat in a new tab and that suggested prompts rendering cannot throw (e.g., defensively handle missing/empty content arrays). (Uses shadcn-ui Button/Card/Alert; verify the component's usage instructions before implementing.)"
+          "description": "Update Assistant section descriptive text so it does not mention “SentinelAI” and uses “Nexus Forge AI” branding while preserving existing health gating, error handling, and submission behavior."
+        },
+        {
+          "path": "frontend/src/components/FAQSection.tsx",
+          "operation": "modify",
+          "description": "Replace all FAQ questions/answers and section intro text that mention “SentinelAI” with “Nexus Forge AI”, ensuring no user-visible “SentinelAI” remains."
+        },
+        {
+          "path": "frontend/src/components/UseCasesSection.tsx",
+          "operation": "modify",
+          "description": "Update Use Cases section paragraphs/CTAs so they refer to “Nexus Forge AI” and contain no “SentinelAI”."
         },
         {
           "path": "frontend/src/components/ContactSection.tsx",
           "operation": "modify",
-          "description": "Harden contact form submission to avoid runtime errors during mailto flow (e.g., guard window usage, handle empty fields already required, avoid state updates after unmount during timeout). Ensure mailto continues to trigger and no console errors occur. (Uses shadcn-ui Button/Input/Textarea/Label/Alert/Card; verify the component's usage instructions before implementing.)"
+          "description": "Update Contact section headings/paragraphs/success helper copy so there is no visible “SentinelAI” anywhere while keeping the contact flow intact."
         },
         {
-          "path": "frontend/src/components/SiteFooter.tsx",
+          "path": "frontend/src/components/TryDemoSection.tsx",
           "operation": "modify",
-          "description": "Ensure footer navigation scroll buttons target the correct section IDs and cannot throw; fix placeholder social links so that all external links are valid and open correctly (target=_blank with rel where appropriate)."
+          "description": "Audit and update any user-facing text to ensure no “SentinelAI” appears anywhere in the demo section rendered by App."
+        },
+        {
+          "path": "frontend/src/components/CapabilitiesSection.tsx",
+          "operation": "modify",
+          "description": "Audit and update any user-facing text to ensure no “SentinelAI” appears in the capabilities section rendered by App."
+        },
+        {
+          "path": "frontend/src/components/HowItWorksSection.tsx",
+          "operation": "modify",
+          "description": "Audit and update any user-facing text to ensure no “SentinelAI” appears in the how-it-works section rendered by App."
+        },
+        {
+          "path": "frontend/src/components/SafetySecuritySection.tsx",
+          "operation": "modify",
+          "description": "Audit and update any user-facing text to ensure no “SentinelAI” appears in the safety & security section rendered by App."
+        },
+        {
+          "path": "frontend/src/content/capabilities.ts",
+          "operation": "modify",
+          "description": "Search and replace any user-facing content strings that mention “SentinelAI” so rendered capability cards contain no “SentinelAI”."
+        },
+        {
+          "path": "frontend/src/content/howItWorks.ts",
+          "operation": "modify",
+          "description": "Search and replace any user-facing content strings that mention “SentinelAI” so rendered workflow content contains no “SentinelAI”."
+        },
+        {
+          "path": "frontend/src/content/tryDemo.ts",
+          "operation": "modify",
+          "description": "Search and replace any user-facing content strings that mention “SentinelAI” so rendered demo prompt content contains no “SentinelAI”."
         }
       ]
     },
     {
-      "id": "REQ-21",
-      "summary": "Add a lightweight frontend health check using the existing backend actor setup and show a clear user-friendly failure state when the backend is unreachable.",
+      "id": "REQ-34",
+      "summary": "Remove SentinelAI-named static asset references (logos/hero background) and ensure the UI references only valid, non-Sentinel filenames with no 404s.",
       "acceptanceCriteria": [
-        "Backend exposes a simple query method (e.g., returning a static string/version) that compiles and is callable after deploy.",
-        "Frontend performs a lightweight check (on load or via a diagnostics UI element) and shows an English, user-friendly message if the backend cannot be reached.",
-        "The health check does not require authentication and does not modify persistent state.",
-        "No changes are made to immutable frontend hook files; the implementation composes with the existing actor/auth setup."
+        "No `<img>` tags or CSS `backgroundImage` URLs in rendered pages reference filenames containing `sentinelai`.",
+        "All images referenced by the UI return HTTP 200 (no 404s) after deployment.",
+        "The site favicon and social images remain valid and render correctly."
       ],
       "file_operations": [
-        {
-          "path": "frontend/src/components/BackendHealthBanner.tsx",
-          "operation": "create",
-          "description": "Create a minimal banner component that calls the existing actor method healthy(): Promise<boolean> (per frontend/src/backend.d.ts) using the existing useActor hook (without modifying immutable hooks). Display a user-friendly message when the call fails or returns unhealthy. (Uses shadcn-ui Alert for clear status UI; verify the component's usage instructions before implementing.)"
-        },
-        {
-          "path": "frontend/src/App.tsx",
-          "operation": "modify",
-          "description": "Wire BackendHealthBanner into the SPA (e.g., near the top of <main> or beneath the header) so the check runs on normal page load and is visible when failing. Ensure this wiring does not introduce any changes to immutablePaths and does not break rendering of existing sections."
-        }
-      ]
-    },
-    {
-      "id": "REQ-22",
-      "summary": "Audit and repair all static asset references (especially under /assets/generated) so images load post-deploy with no 404s.",
-      "acceptanceCriteria": [
-        "All referenced static asset URLs resolve successfully (no 404s) in the deployed environment.",
-        "Hero/background and logo assets (if referenced) load correctly in both light and dark mode contexts.",
-        "No static assets are served through the backend; assets remain in the frontend public directory pathing."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/public/assets/generated/sentinelai-hero-bg.dim_1920x1080.png",
-          "operation": "create",
-          "description": "Ensure the generated hero background asset exists at this exact public path so references like '/assets/generated/sentinelai-hero-bg.dim_1920x1080.png' do not 404 after deployment."
-        },
-        {
-          "path": "frontend/public/assets/generated/sentinelai-logo-light.dim_512x512.png",
-          "operation": "create",
-          "description": "Ensure the light-mode logo asset exists at this exact public path for header/footer rendering (dark:hidden usage)."
-        },
-        {
-          "path": "frontend/public/assets/generated/sentinelai-logo-dark.dim_512x512.png",
-          "operation": "create",
-          "description": "Ensure the dark-mode logo asset exists at this exact public path for header/footer rendering (hidden dark:block usage)."
-        },
-        {
-          "path": "frontend/public/assets/generated/nexusforgeai-logo-light.dim_512x512.png",
-          "operation": "create",
-          "description": "Ensure this generated asset is present if referenced by metadata/branding to prevent missing-asset warnings and 404s after deploy."
-        },
-        {
-          "path": "frontend/public/assets/generated/nexusforgeai-logo-dark.dim_512x512.png",
-          "operation": "create",
-          "description": "Ensure this generated asset is present if referenced by metadata/branding to prevent missing-asset warnings and 404s after deploy."
-        },
-        {
-          "path": "frontend/public/assets/generated/sentinelai-capability-icons.dim_1024x1024.png",
-          "operation": "create",
-          "description": "Ensure this generated asset is present if referenced anywhere in the UI/content to prevent missing-asset warnings and 404s after deploy."
-        },
         {
           "path": "frontend/src/components/SiteHeader.tsx",
           "operation": "modify",
-          "description": "Verify all <img> src paths align with files under frontend/public/assets/generated (including sentinelai-logo-light.dim_512x512.png and sentinelai-logo-dark.dim_512x512.png) so no deployed 404s occur."
+          "description": "Update header logo image sources to use `frontend/public/assets/generated/nexusforgeai-logo-light.dim_512x512.png` and `frontend/public/assets/generated/nexusforgeai-logo-dark.dim_512x512.png` (no references to sentinelai-named files)."
         },
         {
           "path": "frontend/src/components/SiteFooter.tsx",
           "operation": "modify",
-          "description": "Verify all <img> src paths align with files under frontend/public/assets/generated (including sentinelai-logo-light.dim_512x512.png and sentinelai-logo-dark.dim_512x512.png) so no deployed 404s occur."
+          "description": "Update footer logo image sources to use `frontend/public/assets/generated/nexusforgeai-logo-light.dim_512x512.png` and `frontend/public/assets/generated/nexusforgeai-logo-dark.dim_512x512.png` (no references to sentinelai-named files)."
+        },
+        {
+          "path": "frontend/src/components/HeroSection.tsx",
+          "operation": "modify",
+          "description": "Remove or replace the hero background image reference to `frontend/public/assets/generated/sentinelai-hero-bg.dim_1920x1080.png` so no CSS background uses a sentinelai-named file; use a non-asset background treatment instead (e.g., Tailwind gradient/background classes) to avoid 404s."
+        },
+        {
+          "path": "frontend/public/assets/generated/sentinelai-logo-light.dim_512x512.png",
+          "operation": "delete",
+          "description": "Remove the SentinelAI-named generated asset to prevent accidental future references; ensure the UI uses only the nexusforgeai logo assets."
+        },
+        {
+          "path": "frontend/public/assets/generated/sentinelai-logo-dark.dim_512x512.png",
+          "operation": "delete",
+          "description": "Remove the SentinelAI-named generated asset to prevent accidental future references; ensure the UI uses only the nexusforgeai logo assets."
+        },
+        {
+          "path": "frontend/public/assets/generated/sentinelai-hero-bg.dim_1920x1080.png",
+          "operation": "delete",
+          "description": "Remove the SentinelAI-named hero background asset after hero is updated to no longer reference it, ensuring there are no remaining sentinelai asset references."
+        },
+        {
+          "path": "frontend/public/assets/generated/sentinelai-capability-icons.dim_1024x1024.png",
+          "operation": "delete",
+          "description": "Remove the SentinelAI-named capability icons asset if present/unused to ensure no sentinelai-named assets are referenced or shipped inadvertently."
         },
         {
           "path": "frontend/index.html",
           "operation": "modify",
-          "description": "If metadata references any generated assets (logos/OG images), update them to match the exact public paths under frontend/public/assets/generated so no missing asset warnings/404s occur in production."
+          "description": "Verify favicon and social meta images remain valid and continue referencing `frontend/public/assets/generated/nexusforgeai-logo-light.dim_512x512.png` (no sentinelai-named assets)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-35",
+      "summary": "Update Contact section mailto content and visible email presentation to remove all “SentinelAI” text while keeping the existing mailto destination behavior.",
+      "acceptanceCriteria": [
+        "The Contact section contains no visible “SentinelAI” text, including in success messages and helper paragraphs.",
+        "Submitting the contact form still opens the user’s email client via `mailto:` and includes a sensible subject/body that uses “Nexus Forge AI” branding.",
+        "The mailto destination remains functional and unchanged unless explicitly updated by the user."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/ContactSection.tsx",
+          "operation": "modify",
+          "description": "Keep the `mailto:` destination pointing to the existing address (currently `mailto:SentinelAI@usa.com`) but remove all visible “SentinelAI” strings: update the email subject to “Nexus Forge AI …”, adjust any prefilled body branding, and change displayed email text/success helper text so it does not render “SentinelAI” anywhere (including link text)."
+        },
+        {
+          "path": "frontend/src/components/SiteFooter.tsx",
+          "operation": "modify",
+          "description": "Update the visible email address text in the footer so it does not display “SentinelAI” while keeping the underlying `mailto:` destination unchanged unless explicitly changed by the user."
         }
       ]
     }
