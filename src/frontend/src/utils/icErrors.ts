@@ -37,7 +37,7 @@ export function isReplicaRejectionError(error: unknown): boolean {
     const msg = err.message.toLowerCase();
     if (msg.includes('replica returned a rejection') || 
         msg.includes('reject code') ||
-        msg.includes('canister') && msg.includes('stopped')) {
+        (msg.includes('canister') && msg.includes('stopped'))) {
       return true;
     }
   }
@@ -62,16 +62,16 @@ export function sanitizeReplicaError(error: unknown): string {
 }
 
 /**
- * Logs the full error details to console for debugging while returning a sanitized message
+ * Logs error details for debugging while returning a sanitized message
  */
 export function handleICError(error: unknown, context?: string): string {
   const sanitized = sanitizeReplicaError(error);
   
-  // Log full error details for debugging
+  // Log as warning instead of error to reduce console noise during normal operation
   if (context) {
-    console.error(`[${context}] Full error details:`, error);
+    console.warn(`[${context}] Error details:`, error);
   } else {
-    console.error('Full error details:', error);
+    console.warn('Error details:', error);
   }
   
   return sanitized;

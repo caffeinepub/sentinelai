@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useActor } from './useActor';
 import { useBackendHealth } from './useBackendHealth';
 import { handleICError } from '@/utils/icErrors';
@@ -6,7 +6,7 @@ import { handleICError } from '@/utils/icErrors';
 export function useGetAnswer() {
   const { actor, isFetching } = useActor();
   const queryClient = useQueryClient();
-  const { isHealthy, isChecking } = useBackendHealth();
+  const { isUnhealthy } = useBackendHealth();
 
   return useMutation({
     mutationFn: async (question: string) => {
@@ -18,13 +18,13 @@ export function useGetAnswer() {
         throw new Error('Question is too long (max 1000 characters)');
       }
 
-      // Check backend health before attempting call
+      // Check backend connection
       if (!actor) {
         throw new Error('Backend connection not available');
       }
 
-      // Fast-fail if we know the backend is unhealthy
-      if (!isChecking && !isHealthy) {
+      // Only fast-fail if we definitively know the backend is unhealthy
+      if (isUnhealthy) {
         throw new Error('The assistant service is temporarily unavailable. Please try again shortly.');
       }
 
@@ -33,11 +33,16 @@ export function useGetAnswer() {
       } catch (error) {
         // Sanitize IC replica errors for user display
         const sanitizedMessage = handleICError(error, 'getAnswer');
+        
+        // Trigger health recheck on failure
+        queryClient.invalidateQueries({ queryKey: ['backend-health'] });
+        
         throw new Error(sanitizedMessage);
       }
     },
     onError: (error) => {
-      console.error('Error getting answer:', error);
+      // Only log warnings for debugging, not errors (to avoid noisy console)
+      console.warn('Answer request failed:', error instanceof Error ? error.message : error);
     },
   });
 }

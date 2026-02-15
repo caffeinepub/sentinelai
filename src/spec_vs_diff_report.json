@@ -1,59 +1,56 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-15T23:26:35.676Z",
-  "summary": "Branding was largely updated to “Nexus Forge AI” in several key UI components and the backend assistant was changed to return non-trapping, branded fallback answers with `healthy()` returning `true`. However, at least one explicit “SentinelAI” string remains in the frontend (Contact mailto destination), which likely violates the branding purge requirements and search-based acceptance criteria.",
+  "generatedAt": "2026-02-15T23:40:11.778Z",
+  "summary": "Diff implements improved frontend health-check behavior (non-sticky unhealthy state, periodic refetch, banner only on definitive unhealthy), adds IC error sanitization for getAnswer calls, and introduces a backend migration module plus curatedAnswers data in backend/main.mo. However, the diff summary does not provide evidence that backend `healthy()` and `getAnswer(question)` logic were updated to meet the readiness and no-trap requirements, nor that curated knowledge is persisted non-empty across upgrades as required.",
   "missing_requirements": [
     {
-      "id": "REQ-33",
-      "requirement": "Remove all user-facing occurrences of “SentinelAI” from the website UI/content so a case-insensitive search across `frontend/src` returns no matches in user-facing content.",
-      "reason": "The diff still contains the string “SentinelAI” in frontend source, which would fail a repo-wide search check and risks rendering/exposing it (e.g., via mailto destination).",
+      "id": "REQ-42",
+      "requirement": "Fix the root cause of the backend reporting the assistant as not ready so `healthy()` returns `true` in normal deployed operation and does not intermittently return `false`.",
+      "reason": "Frontend gating/banner logic was adjusted to only show unhealthy when definitively unhealthy, but the diff summary does not show any implementation or change to the backend `healthy()` method or its underlying readiness logic to ensure it returns true under normal conditions.",
       "evidence": [
-        "frontend/src/components/ContactSection.tsx (mailtoLink = `mailto:SentinelAI@usa.com?...`)"
+        "backend/main.mo (truncated; shows curatedAnswers data but no `healthy()` implementation)"
       ]
     },
     {
-      "id": "REQ-35",
-      "requirement": "Ensure the Contact section does not visually display “SentinelAI” anywhere (including visible email address and auto-generated subject/body text) while preserving the mailto destination behavior unless replaced.",
-      "reason": "The Contact section constructs a `mailto:` URL containing `SentinelAI@usa.com`, leaving “SentinelAI” present in Contact section logic and potentially exposed to users; this also conflicts with the requirement to avoid visually displaying the string anywhere in the contact experience.",
+      "id": "REQ-43",
+      "requirement": "Ensure the Motoko assistant canister always has a non-empty curated knowledge base at runtime (including after upgrades) and `healthy()` reflects that reliably.",
+      "reason": "A migration module and curatedAnswers map are present, but the diff summary does not show that curated answers are stored/restored as stable state across upgrades, nor that `healthy()` checks for non-empty knowledge without trapping (the `healthy()` function is not shown).",
       "evidence": [
-        "frontend/src/components/ContactSection.tsx (mailtoLink = `mailto:SentinelAI@usa.com?subject=...&body=...`)"
+        "backend/migration.mo (added; shows defaultCuratedAnswers and Old/NewActor types)",
+        "backend/main.mo (truncated; shows curatedAnswers initialization but not persistence/upgrade hooks or `healthy()` logic)"
       ]
     },
     {
-      "id": "REQ-36",
-      "requirement": "Seed or persist a non-empty curated knowledge base on-canister and have `healthy()` return `true` when the knowledge base is usable.",
-      "reason": "While a non-empty in-memory Map is seeded and `healthy()` returns `true`, the diff does not show any stable persistence or upgrade-safe storage for the knowledge base (no stable vars / migration shown). If persistence across upgrades is required, this is not evidenced in the diff summary.",
+      "id": "REQ-44",
+      "requirement": "Make the assistant Q&A flow work end-to-end in production: `getAnswer(question)` must return an answer without replica rejection errors or traps; unknown questions must return a professional English fallback branded as \"Nexus Forge AI\".",
+      "reason": "Frontend now calls `actor.getAnswer` with input validation and sanitized error handling, but the diff summary does not show the backend `getAnswer` implementation or any changes ensuring it never traps and returns deterministic/fallback answers.",
       "evidence": [
-        "backend/main.mo (content Map seeded, but no stable storage shown)"
+        "frontend/src/hooks/useQueries.ts (calls `actor.getAnswer(question.trim())`)",
+        "backend/main.mo (truncated; `getAnswer` not shown)"
       ]
-    }
-  ],
-  "hallucinated_features": [
+    },
     {
-      "description": "Broad UI/theme/SEO and non-requested section/content changes (e.g., “government-grade design tokens”, SEO metadata, content rewrites across multiple sections beyond the specified branding-removal targets).",
-      "reason": "BuildRequest focused on purging “SentinelAI” branding, updating SentinelAI-named asset references, Contact copy, and fixing backend assistant readiness. The diff summary indicates additional redesign/content/SEO work beyond what was requested.",
+      "id": "REQ-46",
+      "requirement": "Run the documented assistant smoke test checklist and fix any failures so the deployed build passes all assistant health and Q&A checks without errors.",
+      "reason": "The checklist file exists/was updated, but there is no evidence in the diff summary that failures were identified and resolved in the backend health/getAnswer implementations, nor any evidence of the smoke test being executed/passing (can’t be verified from code changes alone).",
       "evidence": [
-        "frontend-file-summaries.txt (mentions index.css government-grade design tokens, tailwind theme changes, index.html SEO/OG updates, extensive section aesthetic/content changes)"
+        "frontend/docs/smoke-test-assistant.md (modified)"
       ]
     }
   ],
-  "confidence": 0.74,
+  "hallucinated_features": [],
+  "confidence": 0.64,
   "changed_files": [
     "backend/main.mo",
+    "backend/migration.mo",
     "frontend-file-summaries.txt",
+    "frontend/docs/smoke-test-assistant.md",
     "frontend/src/components/AssistantSection.tsx",
-    "frontend/src/components/CapabilitiesSection.tsx",
-    "frontend/src/components/ContactSection.tsx",
-    "frontend/src/components/FAQSection.tsx",
-    "frontend/src/components/HeroSection.tsx",
-    "frontend/src/components/HowItWorksSection.tsx",
-    "frontend/src/components/SafetySecuritySection.tsx",
-    "frontend/src/components/SiteFooter.tsx",
-    "frontend/src/components/SiteHeader.tsx",
-    "frontend/src/components/TryDemoSection.tsx",
-    "frontend/src/components/UseCasesSection.tsx",
-    "frontend/src/content/howItWorks.ts",
+    "frontend/src/components/BackendHealthBanner.tsx",
+    "frontend/src/hooks/useBackendHealth.ts",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/utils/icErrors.ts",
     "project_state.json"
   ]
 }

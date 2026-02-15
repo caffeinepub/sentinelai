@@ -11,13 +11,13 @@ export function AssistantSection() {
   const [question, setQuestion] = useState('');
   const [lastQuestion, setLastQuestion] = useState('');
   const getAnswerMutation = useGetAnswer();
-  const { isHealthy, isUnhealthy, reason } = useBackendHealth();
+  const { isHealthy, isUnhealthy, isChecking, reason } = useBackendHealth();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!question.trim()) return;
     
-    // Gate submission if backend is unhealthy
+    // Only gate submission if definitively unhealthy (not while checking)
     if (isUnhealthy) {
       return;
     }
@@ -37,6 +37,7 @@ export function AssistantSection() {
   const answer = getAnswerMutation.data;
 
   // Determine if submission should be disabled
+  // Allow submission while checking if we don't know it's unhealthy
   const isSubmitDisabled = !question.trim() || isLoading || isUnhealthy;
 
   return (
@@ -63,13 +64,16 @@ export function AssistantSection() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              {/* Show unavailable message when backend is unhealthy */}
+              {/* Show unavailable message only when definitively unhealthy */}
               {isUnhealthy && (
                 <Alert variant="destructive" className="border-2">
                   <AlertCircle className="h-4 w-4" />
                   <AlertDescription className="ml-2">
                     <p className="font-semibold">
-                      {reason || 'The assistant service is temporarily unavailable. Please try again shortly.'}
+                      {reason || 'Assistant service is not ready'}
+                    </p>
+                    <p className="text-sm mt-1">
+                      Some features may be temporarily unavailable. Please try again in a few moments.
                     </p>
                   </AlertDescription>
                 </Alert>
@@ -143,8 +147,11 @@ export function AssistantSection() {
                 <div className="flex flex-wrap gap-2">
                   {[
                     'What is Nexus Forge AI?',
-                    'How does Nexus Forge ensure data privacy?',
-                    'What platforms does Nexus Forge support?',
+                    'What does Nexus Forge AI do?',
+                    'How does Nexus Forge AI work?',
+                    'What are the core capabilities?',
+                    'Tell me about zero trust privacy',
+                    'How do I get started?',
                   ].map((suggestedQuestion) => (
                     <Button
                       key={suggestedQuestion}

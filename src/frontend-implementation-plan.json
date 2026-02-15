@@ -1,158 +1,110 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Remove SentinelAI branding and update frontend assets/copy to Nexus Forge AI",
+  "title": "Stabilize assistant readiness/health UX and production Q&A flow (frontend-only)",
   "requirements": [
     {
-      "id": "REQ-33",
-      "summary": "Replace all user-facing “SentinelAI” UI copy with “Nexus Forge AI” across all rendered sections and attributes (alt/aria/etc.).",
+      "id": "REQ-42",
+      "summary": "Harden frontend health-check handling so the app does not incorrectly report the assistant as not ready during normal operation.",
       "acceptanceCriteria": [
-        "Visually scanning the site (all sections in `frontend/src/App.tsx`) shows zero instances of the string “SentinelAI”.",
-        "A case-insensitive search for “SentinelAI” across `frontend/src` returns no matches in user-facing content, including `alt` attributes and `aria-label` values.",
-        "The brand name displayed in the header and footer reads “Nexus Forge AI”."
+        "On a fresh load of the deployed site, the backend health check resolves to healthy and `frontend/src/components/BackendHealthBanner.tsx` does not render the red \"Service Notice\" banner.",
+        "In the deployed environment, calling `healthy()` from the frontend returns `true` and does not intermittently return `false` under normal conditions.",
+        "The Assistant section input and submit button are enabled (not gated by an unhealthy status) under normal conditions.",
+        "No console errors are emitted from the backend health check path during a normal page load."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/SiteHeader.tsx",
+          "path": "frontend/src/hooks/useBackendHealth.ts",
           "operation": "modify",
-          "description": "Update header brand text and all user-facing attributes to “Nexus Forge AI” (including aria-label and img alt text) and remove any remaining “SentinelAI” strings."
+          "description": "Adjust health-query behavior to be resilient to transient false/error results: avoid throwing when the actor is temporarily unavailable during initialization, reduce false-unhealthy flapping (e.g., confirm unhealthy results before reporting), and tune React Query options (refetch on focus/reconnect, interval behavior, stale/placeholder handling) so normal deployed loads converge to healthy without triggering the Service Notice. Leverage the existing core-infrastructure actor connection (createActorWithConfig) via useActor; verify the component's usage instructions before implementing."
         },
         {
-          "path": "frontend/src/components/SiteFooter.tsx",
+          "path": "frontend/src/components/BackendHealthBanner.tsx",
           "operation": "modify",
-          "description": "Update footer brand text/copyright and any visible helper text to “Nexus Forge AI”, removing all “SentinelAI” occurrences (including any email link display text)."
-        },
-        {
-          "path": "frontend/src/components/HeroSection.tsx",
-          "operation": "modify",
-          "description": "Replace the hero marketing paragraph copy so it no longer mentions “SentinelAI” and instead references “Nexus Forge AI”, ensuring headings/paragraphs/CTAs contain no “SentinelAI”."
+          "description": "Update banner rendering logic to align with the improved health status semantics (only show on definitively unhealthy states, avoid flashing during rechecks) and keep messaging consistent, English-only. Uses existing shadcn-ui Alert for the banner; verify the component's usage instructions before implementing."
         },
         {
           "path": "frontend/src/components/AssistantSection.tsx",
           "operation": "modify",
-          "description": "Update Assistant section descriptive text so it does not mention “SentinelAI” and uses “Nexus Forge AI” branding while preserving existing health gating, error handling, and submission behavior."
-        },
-        {
-          "path": "frontend/src/components/FAQSection.tsx",
-          "operation": "modify",
-          "description": "Replace all FAQ questions/answers and section intro text that mention “SentinelAI” with “Nexus Forge AI”, ensuring no user-visible “SentinelAI” remains."
-        },
-        {
-          "path": "frontend/src/components/UseCasesSection.tsx",
-          "operation": "modify",
-          "description": "Update Use Cases section paragraphs/CTAs so they refer to “Nexus Forge AI” and contain no “SentinelAI”."
-        },
-        {
-          "path": "frontend/src/components/ContactSection.tsx",
-          "operation": "modify",
-          "description": "Update Contact section headings/paragraphs/success helper copy so there is no visible “SentinelAI” anywhere while keeping the contact flow intact."
-        },
-        {
-          "path": "frontend/src/components/TryDemoSection.tsx",
-          "operation": "modify",
-          "description": "Audit and update any user-facing text to ensure no “SentinelAI” appears anywhere in the demo section rendered by App."
-        },
-        {
-          "path": "frontend/src/components/CapabilitiesSection.tsx",
-          "operation": "modify",
-          "description": "Audit and update any user-facing text to ensure no “SentinelAI” appears in the capabilities section rendered by App."
-        },
-        {
-          "path": "frontend/src/components/HowItWorksSection.tsx",
-          "operation": "modify",
-          "description": "Audit and update any user-facing text to ensure no “SentinelAI” appears in the how-it-works section rendered by App."
-        },
-        {
-          "path": "frontend/src/components/SafetySecuritySection.tsx",
-          "operation": "modify",
-          "description": "Audit and update any user-facing text to ensure no “SentinelAI” appears in the safety & security section rendered by App."
-        },
-        {
-          "path": "frontend/src/content/capabilities.ts",
-          "operation": "modify",
-          "description": "Search and replace any user-facing content strings that mention “SentinelAI” so rendered capability cards contain no “SentinelAI”."
-        },
-        {
-          "path": "frontend/src/content/howItWorks.ts",
-          "operation": "modify",
-          "description": "Search and replace any user-facing content strings that mention “SentinelAI” so rendered workflow content contains no “SentinelAI”."
-        },
-        {
-          "path": "frontend/src/content/tryDemo.ts",
-          "operation": "modify",
-          "description": "Search and replace any user-facing content strings that mention “SentinelAI” so rendered demo prompt content contains no “SentinelAI”."
+          "description": "Ensure the assistant input/button are not incorrectly gated by transient or initializing health states (e.g., do not disable while health is still checking if last-known health is good), while still preventing submission when definitively unhealthy. Keep all user-facing text in English and consistent with the top banner. Uses existing shadcn-ui Card/Button/Textarea/Alert; verify the component's usage instructions before implementing."
         }
       ]
     },
     {
-      "id": "REQ-34",
-      "summary": "Remove SentinelAI-named static asset references (logos/hero background) and ensure the UI references only valid, non-Sentinel filenames with no 404s.",
+      "id": "REQ-44",
+      "summary": "Ensure the assistant Q&A UI calls getAnswer reliably and displays sanitized responses/errors without exposing replica/debug payloads.",
       "acceptanceCriteria": [
-        "No `<img>` tags or CSS `backgroundImage` URLs in rendered pages reference filenames containing `sentinelai`.",
-        "All images referenced by the UI return HTTP 200 (no 404s) after deployment.",
-        "The site favicon and social images remain valid and render correctly."
+        "From the deployed site, asking \"What is Nexus Forge AI?\" returns a deterministic English answer (not an error) and the UI displays it in the answer panel.",
+        "The system does not produce IC replica rejection errors (e.g., IC0508 / reject code 5) during normal assistant usage.",
+        "`getAnswer` never traps; for unknown questions it returns a professional English fallback answer (not an exception) branded as \"Nexus Forge AI\".",
+        "No raw replica/debug payloads (CBOR, request IDs, reject codes) are shown to end users; user-facing errors remain sanitized."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/SiteHeader.tsx",
+          "path": "frontend/src/hooks/useQueries.ts",
           "operation": "modify",
-          "description": "Update header logo image sources to use `frontend/public/assets/generated/nexusforgeai-logo-light.dim_512x512.png` and `frontend/public/assets/generated/nexusforgeai-logo-dark.dim_512x512.png` (no references to sentinelai-named files)."
+          "description": "Make the getAnswer mutation more production-resilient: coordinate with the health query to avoid false fast-fails during health rechecks, trigger a health recheck/invalidation on failures where appropriate, and ensure user-visible errors remain sanitized. Remove/avoid unconditional console.error logging during normal failures to satisfy smoke-test expectations (retain sanitized UI errors). Uses the existing core-infrastructure actor via useActor; verify the component's usage instructions before implementing."
         },
         {
-          "path": "frontend/src/components/SiteFooter.tsx",
+          "path": "frontend/src/utils/icErrors.ts",
           "operation": "modify",
-          "description": "Update footer logo image sources to use `frontend/public/assets/generated/nexusforgeai-logo-light.dim_512x512.png` and `frontend/public/assets/generated/nexusforgeai-logo-dark.dim_512x512.png` (no references to sentinelai-named files)."
+          "description": "Tighten sanitization to guarantee no raw replica/debug payloads are ever surfaced to end users and reduce noisy console error output in normal operation (prefer non-error logging where appropriate while preserving debuggability). All user-facing messaging must remain in English."
         },
         {
-          "path": "frontend/src/components/HeroSection.tsx",
+          "path": "frontend/src/components/AssistantSection.tsx",
           "operation": "modify",
-          "description": "Remove or replace the hero background image reference to `frontend/public/assets/generated/sentinelai-hero-bg.dim_1920x1080.png` so no CSS background uses a sentinelai-named file; use a non-asset background treatment instead (e.g., Tailwind gradient/background classes) to avoid 404s."
-        },
-        {
-          "path": "frontend/public/assets/generated/sentinelai-logo-light.dim_512x512.png",
-          "operation": "delete",
-          "description": "Remove the SentinelAI-named generated asset to prevent accidental future references; ensure the UI uses only the nexusforgeai logo assets."
-        },
-        {
-          "path": "frontend/public/assets/generated/sentinelai-logo-dark.dim_512x512.png",
-          "operation": "delete",
-          "description": "Remove the SentinelAI-named generated asset to prevent accidental future references; ensure the UI uses only the nexusforgeai logo assets."
-        },
-        {
-          "path": "frontend/public/assets/generated/sentinelai-hero-bg.dim_1920x1080.png",
-          "operation": "delete",
-          "description": "Remove the SentinelAI-named hero background asset after hero is updated to no longer reference it, ensuring there are no remaining sentinelai asset references."
-        },
-        {
-          "path": "frontend/public/assets/generated/sentinelai-capability-icons.dim_1024x1024.png",
-          "operation": "delete",
-          "description": "Remove the SentinelAI-named capability icons asset if present/unused to ensure no sentinelai-named assets are referenced or shipped inadvertently."
-        },
-        {
-          "path": "frontend/index.html",
-          "operation": "modify",
-          "description": "Verify favicon and social meta images remain valid and continue referencing `frontend/public/assets/generated/nexusforgeai-logo-light.dim_512x512.png` (no sentinelai-named assets)."
+          "description": "Ensure the UI always renders the returned answer string, and that any displayed error message comes only from the sanitized error pipeline (no accidental rendering of raw objects). Keep Nexus Forge AI branding and professional English fallback messaging. Uses existing shadcn-ui Alert/Button; verify the component's usage instructions before implementing."
         }
       ]
     },
     {
-      "id": "REQ-35",
-      "summary": "Update Contact section mailto content and visible email presentation to remove all “SentinelAI” text while keeping the existing mailto destination behavior.",
+      "id": "REQ-45",
+      "summary": "Prevent transient backend issues from sticking the UI in an unhealthy state; automatically recover to healthy without a hard refresh.",
       "acceptanceCriteria": [
-        "The Contact section contains no visible “SentinelAI” text, including in success messages and helper paragraphs.",
-        "Submitting the contact form still opens the user’s email client via `mailto:` and includes a sensible subject/body that uses “Nexus Forge AI” branding.",
-        "The mailto destination remains functional and unchanged unless explicitly updated by the user."
+        "If the backend is temporarily unavailable and then recovers, the health status transitions back to healthy without a hard refresh, and the Assistant UI becomes enabled automatically.",
+        "The banner and Assistant unavailable alert only appear when the latest health check is definitively unhealthy (not while still checking).",
+        "User-facing messaging remains in English and stays consistent between the top banner and the Assistant section alert (no duplicated/garbled text)."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/ContactSection.tsx",
+          "path": "frontend/src/hooks/useBackendHealth.ts",
           "operation": "modify",
-          "description": "Keep the `mailto:` destination pointing to the existing address (currently `mailto:SentinelAI@usa.com`) but remove all visible “SentinelAI” strings: update the email subject to “Nexus Forge AI …”, adjust any prefilled body branding, and change displayed email text/success helper text so it does not render “SentinelAI” anywhere (including link text)."
+          "description": "Implement recovery-first state derivation: treat in-flight refetches as checking (not unhealthy), preserve last-known-good health to keep the assistant usable during rechecks, and ensure automatic revalidation on reconnect/focus so the UI self-recovers. Uses React Query and the existing core-infrastructure actor; verify the component's usage instructions before implementing."
         },
         {
-          "path": "frontend/src/components/SiteFooter.tsx",
+          "path": "frontend/src/components/BackendHealthBanner.tsx",
           "operation": "modify",
-          "description": "Update the visible email address text in the footer so it does not display “SentinelAI” while keeping the underlying `mailto:` destination unchanged unless explicitly changed by the user."
+          "description": "Ensure the banner reflects the latest completed health result (not intermediate checking), and that its text matches the Assistant section alert. Uses shadcn-ui Alert; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/AssistantSection.tsx",
+          "operation": "modify",
+          "description": "Align assistant unavailable alert visibility with the updated health semantics (only on definitively unhealthy), and ensure controls re-enable automatically when health flips back to healthy. Uses shadcn-ui components; verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-46",
+      "summary": "Update the assistant smoke test checklist to match the corrected frontend behavior and ensure the deployed build passes it without errors.",
+      "acceptanceCriteria": [
+        "All steps in `frontend/docs/smoke-test-assistant.md` pass on the deployed build, including: no health warning banner under normal operation, successful answer rendering, suggested questions working, and sanitized error handling.",
+        "No runtime errors appear in the browser console during the full assistant flow (health check → submit question → receive answer)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/docs/smoke-test-assistant.md",
+          "operation": "modify",
+          "description": "Revise the checklist so it accurately reflects intended client-side validation (e.g., long-question behavior), the improved non-sticky health/recovery behavior, and the requirement for no console errors during a normal flow. Keep all text in English."
+        },
+        {
+          "path": "frontend/src/hooks/useBackendHealth.ts",
+          "operation": "modify",
+          "description": "Ensure the behavior required by the smoke test is implemented and stable (no banner under normal operation, auto-recovery without refresh). Uses React Query + core-infrastructure actor; verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Ensure the Q&A flow required by the smoke test behaves cleanly in production (sanitized errors, no noisy console errors in normal operation, successful answer rendering). Uses core-infrastructure actor; verify the component's usage instructions before implementing."
         }
       ]
     }

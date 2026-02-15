@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 19,
+  "projectStateVersion": 23,
   "summary": "Rename the website/product to Nexus Forge AI and add an on-site AI assistant that answers visitor questions with real, working logic, while maintaining the professional government-grade marketing/explainer site requirements (capabilities, safe testing guidance, demo link, contact details).",
   "architectural_notes": [
     "Website should clearly explain app purpose, how it works, and every capability; include guidance for safe testing by companies; include contact email SentinelAI@usa.com and link to https://nexusforgeai.base44.app/Chat.",
@@ -15,7 +15,8 @@
     "On-site AI assistant widget/UI does not appear on the live site.",
     "AI assistant fails with IC replica rejection (Reject code 5, IC0508) because backend canister 5bwdt-cyaaa-aaaan-q2pka-cai is stopped when calling getAnswer.",
     "Live site still shows “SentinelAI” branding across the page; rename/branding changes to “Nexus Forge AI” did not apply or are incomplete.",
-    "Assistant UI reports “Assistant service is not ready” indicating the backend service/health readiness is failing or not correctly detected by the frontend."
+    "Assistant UI reports “Assistant service is not ready” indicating the backend service/health readiness is failing or not correctly detected by the frontend.",
+    "Assistant returns a 'couldn't find an answer' fallback for basic questions like “What is Nexus Forge AI?”, indicating the on-canister knowledge base/answering logic is incomplete or not seeded with core product info."
   ],
   "isFixRequest": true,
   "existing_features": [
@@ -274,6 +275,46 @@
         "REQ-35"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-update-the-assistant-ui-suggested-questions-in-frontend-src-components-assistantsection-tsx-the-try-asking-buttons-so-they-reflect-the-expanded-curated-knowledge-areas-and-reliably-produce-non-fallback-answers-with-the-updated-backend-knowledge-base",
+      "title": "Update the Assistant UI suggested questions in `frontend/src/components/AssistantSection.tsx` (the “Try asking:” buttons) so they reflect the expanded curated knowledge areas and reliably produce non-fallback answers with the updated backend knowledge base.",
+      "reqIds": [
+        "REQ-41"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-the-root-cause-of-the-backend-reporting-the-assistant-as-not-ready-so-healthy-returns-true-in-normal-deployed-operation-and-the-frontend-does-not-show-the-red-service-notice-banner-or-the-assistant-service-is-not-ready-message-when-the-assistant-is-actually-usable",
+      "title": "Fix the root cause of the backend reporting the assistant as not ready so `healthy()` returns `true` in normal deployed operation and the frontend does not show the red \"Service Notice\" banner or the \"Assistant service is not ready\" message when the assistant is actually usable.",
+      "reqIds": [
+        "REQ-42"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-make-the-assistant-q-a-flow-work-end-to-end-in-production-submitting-a-question-from-frontend-src-components-assistantsection-tsx-must-successfully-call-the-motoko-getanswer-question-method-and-return-an-answer-without-replica-rejection-errors-or-traps",
+      "title": "Make the assistant Q&A flow work end-to-end in production: submitting a question from `frontend/src/components/AssistantSection.tsx` must successfully call the Motoko `getAnswer(question)` method and return an answer without replica rejection errors or traps.",
+      "reqIds": [
+        "REQ-44"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-adjust-frontend-health-and-error-handling-so-transient-backend-issues-do-not-incorrectly-stick-the-ui-in-a-not-ready-state-ensure-health-is-rechecked-and-the-assistant-becomes-usable-automatically-when-the-backend-becomes-healthy-again",
+      "title": "Adjust frontend health and error handling so transient backend issues do not incorrectly stick the UI in a \"not ready\" state; ensure health is rechecked and the assistant becomes usable automatically when the backend becomes healthy again.",
+      "reqIds": [
+        "REQ-45"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-run-the-documented-assistant-smoke-test-checklist-and-fix-any-failures-so-the-deployed-build-passes-all-assistant-health-and-q-a-checks-without-errors",
+      "title": "Run the documented assistant smoke test checklist and fix any failures so the deployed build passes all assistant health and Q&A checks without errors.",
+      "reqIds": [
+        "REQ-46"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -342,6 +383,52 @@
       "summary": "Fix the Motoko Assistant backend so the service reports ready/healthy and can answer questions reliably without trapping. Specifically: ensure `healthy()` returns `true` when the assistant knowledge base is usable, seed or persist a non-empty curated knowledge base on-canister, and change `getAnswer(question)` to never `trap` (including for unknown questions) and instead return a deterministic, user-friendly English fallback answer branded as “Nexus Forge AI”.",
       "reqIds": [
         "REQ-36"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-18",
+      "summary": "Improve the on-site assistant’s knowledge/answer coverage so it can accurately answer basic product questions (e.g., “What is Nexus Forge AI?”) using the site’s curated content, rather than returning a generic 'couldn’t find an answer' fallback.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-19",
+      "summary": "Update the Motoko assistant knowledge base in `backend/main.mo` so it contains accurate, curated Q&A content derived from the website’s existing on-page copy (FAQ, How It Works, Safety & Security, Capabilities overview), including a correct answer for common product-intro questions such as “What is Nexus Forge AI?” and “What does Nexus Forge AI do?”. Remove or rewrite any backend Q&A entries that introduce claims not supported by the site’s content.",
+      "reqIds": [
+        "REQ-37"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-20",
+      "summary": "Fix and improve question matching in `backend/main.mo` so that user queries that are longer or phrased differently (e.g., “what is nexus forge ai or about it”, “tell me about nexus forge ai”, “what does nexus forge ai do”) still map to the best relevant curated answer instead of falling through to the “couldn’t find an answer” response.",
+      "reqIds": [
+        "REQ-38"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-21",
+      "summary": "Replace the current unknown-question fallback text returned by `getAnswer` in `backend/main.mo` with a more helpful, professional response that (1) states the assistant only answers based on the site’s published Nexus Forge AI information, (2) suggests several example topics/questions it can answer, and (3) avoids implying the user is at fault. Keep all user-facing text in English and branded as “Nexus Forge AI”.",
+      "reqIds": [
+        "REQ-39"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-22",
+      "summary": "Ensure `healthy()` in `backend/main.mo` reflects assistant readiness by returning `true` only when the curated knowledge base is available and non-empty (so the frontend does not attempt Q&A calls when the assistant content is missing).",
+      "reqIds": [
+        "REQ-40"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-24",
+      "summary": "Ensure the Motoko assistant canister always has a non-empty curated knowledge base at runtime (including after upgrades) so that `healthy()` is a reliable readiness signal and never reports \"not ready\" due to missing/empty knowledge data.",
+      "reqIds": [
+        "REQ-43"
       ],
       "status": "pending"
     }
