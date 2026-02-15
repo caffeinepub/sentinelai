@@ -15,9 +15,14 @@ export function SiteHeader() {
   }, []);
 
   const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    try {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    } catch (error) {
+      console.error('Error scrolling to section:', error);
+    } finally {
       setIsMobileMenuOpen(false);
     }
   };

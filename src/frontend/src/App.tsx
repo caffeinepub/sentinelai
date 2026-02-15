@@ -8,11 +8,13 @@ import { UseCasesSection } from './components/UseCasesSection';
 import { SafetySecuritySection } from './components/SafetySecuritySection';
 import { FAQSection } from './components/FAQSection';
 import { ContactSection } from './components/ContactSection';
+import { BackendHealthBanner } from './components/BackendHealthBanner';
 
 function App() {
   return (
     <div className="min-h-screen flex flex-col">
       <SiteHeader />
+      <BackendHealthBanner />
       <main className="flex-1">
         <HeroSection />
         <TryDemoSection />

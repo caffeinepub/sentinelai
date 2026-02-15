@@ -1,23 +1,152 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Neutralize Try Demo section styling to match muted government palette",
+  "title": "Stabilize frontend build/deploy and complete SPA smoke-test fixes",
   "requirements": [
     {
-      "id": "REQ-13",
-      "summary": "Remove green-heavy background/accent styling in the Try Demo section and replace with neutral government-style panel treatment while keeping all copy and the demo link unchanged.",
+      "id": "REQ-19",
+      "summary": "Eliminate frontend build/bundling issues that contribute to end-to-end deploy failure (imports, assets, and configuration warnings).",
       "acceptanceCriteria": [
-        "In `frontend/src/components/TryDemoSection.tsx`, the section wrapper background is updated so it reads neutral (no noticeable green tint), while remaining consistent with the Option A government style (flat panels, minimal color).",
-        "Any green-accent-heavy styling within the Try Demo section (e.g., prominent green icon accents) is reduced or replaced with neutral foreground/muted styling so the section no longer feels 'too green'.",
-        "All user-facing text in the Try Demo section remains unchanged.",
-        "The demo launch link remains exactly `https://nexusforgeai.base44.app/Chat` and continues to open in a new tab.",
-        "No new gradients, glows, or decorative AI-style effects are introduced in the Try Demo section."
+        "A full build completes without errors (frontend bundling and Motoko compilation).",
+        "A full deploy completes successfully with no deployment-step errors.",
+        "No new build-time warnings are introduced that indicate broken configuration (e.g., missing assets, missing environment values, broken imports)."
       ],
       "file_operations": [
         {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire any new diagnostics/health UI (from REQ-21) into the single-page layout in a way that cannot break the build (e.g., guarded rendering). Ensure imports remain valid and no unused imports/types are introduced."
+        },
+        {
+          "path": "frontend/index.html",
+          "operation": "modify",
+          "description": "Audit and fix any broken static asset references in metadata (favicon/OpenGraph images) to ensure the bundler and deployed build do not reference missing files. Keep references aligned with files under frontend/public. If shadcn/ui theming or base styles rely on specific meta tags, preserve them."
+        },
+        {
+          "path": "frontend/src/components/SiteHeader.tsx",
+          "operation": "modify",
+          "description": "Confirm all imports resolve in the build environment (including '@/...' alias usage if present in the project). If alias resolution is the root cause, adjust this file’s imports to the project’s supported pattern (without touching immutablePaths). Ensure build produces no missing-module warnings. (Uses shadcn-ui Button; verify the component's usage instructions before implementing.)"
+        },
+        {
+          "path": "frontend/src/components/SiteFooter.tsx",
+          "operation": "modify",
+          "description": "Fix any link hrefs or imports that could cause build-time or runtime issues during deploy (e.g., placeholder href='#' for external links). Ensure external links are valid URLs and, where applicable, open safely in a new tab."
+        }
+      ]
+    },
+    {
+      "id": "REQ-20",
+      "summary": "Fix SPA runtime smoke-test issues: ensure all sections render, scroll navigation targets work, external links open correctly, and no console errors occur during normal interactions.",
+      "acceptanceCriteria": [
+        "Visiting the app shows the header, hero, try-demo, capabilities, how-it-works, safety/security, use-cases, FAQ, contact, and footer sections with no blank/undefined content.",
+        "Header navigation buttons scroll to the correct section IDs (hero, capabilities, how-it-works, safety-security, use-cases, faq, contact).",
+        "All “Try the Demo”/“Launch Demo Environment” links open https://nexusforgeai.base44.app/Chat in a new tab and do not throw errors.",
+        "Submitting the contact form triggers the mailto flow and does not throw runtime errors.",
+        "Browser console shows no uncaught exceptions during normal interaction (scrolling, opening mobile menu, clicking nav, clicking CTAs, submitting contact form)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/SiteHeader.tsx",
+          "operation": "modify",
+          "description": "Smoke-test and harden navigation scrolling: ensure scrollToSection gracefully handles missing IDs (no errors), closes mobile menu safely, and targets exactly the required IDs. Preserve the demo URL behavior and target=_blank rel attributes. (Uses shadcn-ui Button; verify the component's usage instructions before implementing.)"
+        },
+        {
+          "path": "frontend/src/components/HeroSection.tsx",
+          "operation": "modify",
+          "description": "Verify hero section renders without errors and that background image reference is correct. Confirm the primary CTA continues to open https://nexusforgeai.base44.app/Chat in a new tab, and the Contact Sales scroll does not throw if the element is not found. (Uses shadcn-ui Button; verify the component's usage instructions before implementing.)"
+        },
+        {
           "path": "frontend/src/components/TryDemoSection.tsx",
           "operation": "modify",
-          "description": "Adjust the Try Demo section’s Tailwind classes to eliminate any green-tinted/AI-styled treatment and align with the site’s muted graphite/off-white government aesthetic. Keep the existing shadcn-ui Button/Card/Alert structure (verify the component's usage instructions before implementing). Specifically: (1) update the section wrapper background to a neutral background/panel (no green tint), (2) reduce green accents by replacing the `text-success` Sparkles icon styling with a neutral/muted foreground, (3) convert the warning alert to a mostly-neutral panel treatment (e.g., neutral background/border with a restrained warning accent) without adding gradients/glows, and (4) keep all text and the demo link/attributes exactly as-is (URL, new tab, noopener noreferrer)."
+          "description": "Verify the Launch Demo Environment button opens https://nexusforgeai.base44.app/Chat in a new tab and that suggested prompts rendering cannot throw (e.g., defensively handle missing/empty content arrays). (Uses shadcn-ui Button/Card/Alert; verify the component's usage instructions before implementing.)"
+        },
+        {
+          "path": "frontend/src/components/ContactSection.tsx",
+          "operation": "modify",
+          "description": "Harden contact form submission to avoid runtime errors during mailto flow (e.g., guard window usage, handle empty fields already required, avoid state updates after unmount during timeout). Ensure mailto continues to trigger and no console errors occur. (Uses shadcn-ui Button/Input/Textarea/Label/Alert/Card; verify the component's usage instructions before implementing.)"
+        },
+        {
+          "path": "frontend/src/components/SiteFooter.tsx",
+          "operation": "modify",
+          "description": "Ensure footer navigation scroll buttons target the correct section IDs and cannot throw; fix placeholder social links so that all external links are valid and open correctly (target=_blank with rel where appropriate)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-21",
+      "summary": "Add a lightweight frontend health check using the existing backend actor setup and show a clear user-friendly failure state when the backend is unreachable.",
+      "acceptanceCriteria": [
+        "Backend exposes a simple query method (e.g., returning a static string/version) that compiles and is callable after deploy.",
+        "Frontend performs a lightweight check (on load or via a diagnostics UI element) and shows an English, user-friendly message if the backend cannot be reached.",
+        "The health check does not require authentication and does not modify persistent state.",
+        "No changes are made to immutable frontend hook files; the implementation composes with the existing actor/auth setup."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/BackendHealthBanner.tsx",
+          "operation": "create",
+          "description": "Create a minimal banner component that calls the existing actor method healthy(): Promise<boolean> (per frontend/src/backend.d.ts) using the existing useActor hook (without modifying immutable hooks). Display a user-friendly message when the call fails or returns unhealthy. (Uses shadcn-ui Alert for clear status UI; verify the component's usage instructions before implementing.)"
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire BackendHealthBanner into the SPA (e.g., near the top of <main> or beneath the header) so the check runs on normal page load and is visible when failing. Ensure this wiring does not introduce any changes to immutablePaths and does not break rendering of existing sections."
+        }
+      ]
+    },
+    {
+      "id": "REQ-22",
+      "summary": "Audit and repair all static asset references (especially under /assets/generated) so images load post-deploy with no 404s.",
+      "acceptanceCriteria": [
+        "All referenced static asset URLs resolve successfully (no 404s) in the deployed environment.",
+        "Hero/background and logo assets (if referenced) load correctly in both light and dark mode contexts.",
+        "No static assets are served through the backend; assets remain in the frontend public directory pathing."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/assets/generated/sentinelai-hero-bg.dim_1920x1080.png",
+          "operation": "create",
+          "description": "Ensure the generated hero background asset exists at this exact public path so references like '/assets/generated/sentinelai-hero-bg.dim_1920x1080.png' do not 404 after deployment."
+        },
+        {
+          "path": "frontend/public/assets/generated/sentinelai-logo-light.dim_512x512.png",
+          "operation": "create",
+          "description": "Ensure the light-mode logo asset exists at this exact public path for header/footer rendering (dark:hidden usage)."
+        },
+        {
+          "path": "frontend/public/assets/generated/sentinelai-logo-dark.dim_512x512.png",
+          "operation": "create",
+          "description": "Ensure the dark-mode logo asset exists at this exact public path for header/footer rendering (hidden dark:block usage)."
+        },
+        {
+          "path": "frontend/public/assets/generated/nexusforgeai-logo-light.dim_512x512.png",
+          "operation": "create",
+          "description": "Ensure this generated asset is present if referenced by metadata/branding to prevent missing-asset warnings and 404s after deploy."
+        },
+        {
+          "path": "frontend/public/assets/generated/nexusforgeai-logo-dark.dim_512x512.png",
+          "operation": "create",
+          "description": "Ensure this generated asset is present if referenced by metadata/branding to prevent missing-asset warnings and 404s after deploy."
+        },
+        {
+          "path": "frontend/public/assets/generated/sentinelai-capability-icons.dim_1024x1024.png",
+          "operation": "create",
+          "description": "Ensure this generated asset is present if referenced anywhere in the UI/content to prevent missing-asset warnings and 404s after deploy."
+        },
+        {
+          "path": "frontend/src/components/SiteHeader.tsx",
+          "operation": "modify",
+          "description": "Verify all <img> src paths align with files under frontend/public/assets/generated (including sentinelai-logo-light.dim_512x512.png and sentinelai-logo-dark.dim_512x512.png) so no deployed 404s occur."
+        },
+        {
+          "path": "frontend/src/components/SiteFooter.tsx",
+          "operation": "modify",
+          "description": "Verify all <img> src paths align with files under frontend/public/assets/generated (including sentinelai-logo-light.dim_512x512.png and sentinelai-logo-dark.dim_512x512.png) so no deployed 404s occur."
+        },
+        {
+          "path": "frontend/index.html",
+          "operation": "modify",
+          "description": "If metadata references any generated assets (logos/OG images), update them to match the exact public paths under frontend/public/assets/generated so no missing asset warnings/404s occur in production."
         }
       ]
     }

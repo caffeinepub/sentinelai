@@ -2,6 +2,17 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight, Shield } from 'lucide-react';
 
 export function HeroSection() {
+  const handleContactScroll = () => {
+    try {
+      const element = document.getElementById('contact');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } catch (error) {
+      console.error('Error scrolling to contact section:', error);
+    }
+  };
+
   return (
     <section id="hero" className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
       <div
@@ -53,10 +64,7 @@ export function HeroSection() {
               variant="outline"
               size="lg"
               className="text-lg px-8 py-6 font-semibold border-2"
-              onClick={() => {
-                const element = document.getElementById('contact');
-                element?.scrollIntoView({ behavior: 'smooth' });
-              }}
+              onClick={handleContactScroll}
             >
               Contact Sales
             </Button>

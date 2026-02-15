@@ -15,28 +15,46 @@ export function ContactSection() {
     message: '',
   });
   const [showSuccess, setShowSuccess] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Construct mailto link with form data
-    const subject = encodeURIComponent(`SentinelAI Inquiry from ${formData.company || formData.name}`);
-    const body = encodeURIComponent(
-      `Name: ${formData.name}\nEmail: ${formData.email}\nCompany: ${formData.company}\n\nMessage:\n${formData.message}`
-    );
-    const mailtoLink = `mailto:SentinelAI@usa.com?subject=${subject}&body=${body}`;
+    if (isSubmitting) return;
     
-    // Open mailto link
-    window.location.href = mailtoLink;
+    setIsSubmitting(true);
     
-    // Show success message
-    setShowSuccess(true);
-    
-    // Reset form
-    setFormData({ name: '', email: '', company: '', message: '' });
-    
-    // Hide success message after 5 seconds
-    setTimeout(() => setShowSuccess(false), 5000);
+    try {
+      // Construct mailto link with form data
+      const subject = encodeURIComponent(`SentinelAI Inquiry from ${formData.company || formData.name}`);
+      const body = encodeURIComponent(
+        `Name: ${formData.name}\nEmail: ${formData.email}\nCompany: ${formData.company}\n\nMessage:\n${formData.message}`
+      );
+      const mailtoLink = `mailto:SentinelAI@usa.com?subject=${subject}&body=${body}`;
+      
+      // Open mailto link
+      if (typeof window !== 'undefined') {
+        window.location.href = mailtoLink;
+      }
+      
+      // Show success message
+      setShowSuccess(true);
+      
+      // Reset form
+      setFormData({ name: '', email: '', company: '', message: '' });
+      
+      // Hide success message after 5 seconds
+      const timeoutId = setTimeout(() => {
+        setShowSuccess(false);
+      }, 5000);
+      
+      // Cleanup timeout if component unmounts
+      return () => clearTimeout(timeoutId);
+    } catch (error) {
+      console.error('Error submitting contact form:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -92,6 +110,7 @@ export function ContactSection() {
                           onChange={handleChange}
                           required
                           placeholder="John Doe"
+                          disabled={isSubmitting}
                         />
                       </div>
                       <div className="space-y-2">
@@ -104,6 +123,7 @@ export function ContactSection() {
                           onChange={handleChange}
                           required
                           placeholder="john@company.com"
+                          disabled={isSubmitting}
                         />
                       </div>
                     </div>
@@ -116,6 +136,7 @@ export function ContactSection() {
                         value={formData.company}
                         onChange={handleChange}
                         placeholder="Your Company Name"
+                        disabled={isSubmitting}
                       />
                     </div>
 
@@ -129,12 +150,13 @@ export function ContactSection() {
                         required
                         placeholder="Tell us about your needs, questions, or how we can help..."
                         rows={6}
+                        disabled={isSubmitting}
                       />
                     </div>
 
-                    <Button type="submit" size="lg" className="w-full font-semibold">
+                    <Button type="submit" size="lg" className="w-full font-semibold" disabled={isSubmitting}>
                       <Send className="mr-2 h-5 w-5" />
-                      Send Message
+                      {isSubmitting ? 'Sending...' : 'Send Message'}
                     </Button>
                   </form>
                 </CardContent>

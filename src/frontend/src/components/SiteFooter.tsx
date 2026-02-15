@@ -5,9 +5,13 @@ export function SiteFooter() {
   const currentYear = new Date().getFullYear();
   
   const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    try {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    } catch (error) {
+      console.error('Error scrolling to section:', error);
     }
   };
 
@@ -123,21 +127,27 @@ export function SiteFooter() {
             </p>
             <div className="flex space-x-4">
               <a
-                href="#"
+                href="https://github.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-foreground transition-colors"
                 aria-label="GitHub"
               >
                 <SiGithub className="h-5 w-5" />
               </a>
               <a
-                href="#"
+                href="https://linkedin.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-foreground transition-colors"
                 aria-label="LinkedIn"
               >
                 <SiLinkedin className="h-5 w-5" />
               </a>
               <a
-                href="#"
+                href="https://x.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-foreground transition-colors"
                 aria-label="X (Twitter)"
               >

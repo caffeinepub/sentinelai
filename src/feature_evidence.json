@@ -2,9 +2,34 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-update-the-try-demo-section-styling-to-remove-the-overly-green-ai-looking-background-treatment-and-replace-it-with-a-neutral-government-style-background-consistent-with-the-site-s-muted-graphite-off-white-palette-minimal-use-of-green-accent-apply-this-specifically-in-frontend-src-components-trydemosection-tsx-without-changing-any-existing-copy-or-the-demo-launch-url",
-      "featureTitle": "Update the Try Demo section styling to remove the overly-green / AI-looking background treatment and replace it with a neutral, government-style background consistent with the site’s muted graphite/off-white palette (minimal use of green accent). Apply this specifically in `frontend/src/components/TryDemoSection.tsx` without changing any existing copy or the demo launch URL.",
+      "featureId": "feature-identify-and-fix-the-root-cause-of-the-deployment-failure-so-the-project-can-build-and-deploy-successfully-end-to-end",
+      "featureTitle": "Identify and fix the root cause of the deployment failure so the project can build and deploy successfully end-to-end.",
       "files": [
+        "frontend/index.html",
+        "frontend/src/App.tsx",
+        "frontend/src/components/SiteFooter.tsx",
+        "frontend/src/components/SiteHeader.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-19"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-run-and-fix-a-complete-frontend-runtime-smoke-test-of-the-single-page-site-all-sections-render-navigation-scroll-targets-work-and-all-external-links-open-correctly-without-console-errors",
+      "featureTitle": "Run and fix a complete frontend runtime smoke test of the single-page site: all sections render, navigation scroll targets work, and all external links open correctly without console errors.",
+      "files": [
+        "frontend/src/components/ContactSection.tsx",
+        "frontend/src/components/HeroSection.tsx",
+        "frontend/src/components/SiteFooter.tsx",
+        "frontend/src/components/SiteHeader.tsx",
         "frontend/src/components/TryDemoSection.tsx"
       ],
       "components": [
@@ -15,7 +40,46 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-13"
+        "REQ-20"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-minimal-backend-health-surface-non-breaking-to-confirm-the-canister-is-deployed-and-callable-and-wire-a-simple-frontend-check-to-display-a-clear-failure-state-if-the-backend-is-unreachable",
+      "featureTitle": "Add a minimal backend health surface (non-breaking) to confirm the canister is deployed and callable, and wire a simple frontend check to display a clear failure state if the backend is unreachable.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/BackendHealthBanner.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-21"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-audit-and-fix-any-broken-missing-static-assets-referenced-by-the-ui-especially-images-under-assets-generated-so-that-all-images-load-without-404s-after-deployment",
+      "featureTitle": "Audit and fix any broken/missing static assets referenced by the UI (especially images under /assets/generated) so that all images load without 404s after deployment.",
+      "files": [
+        "frontend/index.html",
+        "frontend/src/components/SiteFooter.tsx",
+        "frontend/src/components/SiteHeader.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-22"
       ],
       "confidence": "high"
     }

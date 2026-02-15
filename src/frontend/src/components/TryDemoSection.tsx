@@ -5,6 +5,8 @@ import { ExternalLink, AlertTriangle, Sparkles } from 'lucide-react';
 import { suggestedPrompts, demoDisclaimer } from '../content/tryDemo';
 
 export function TryDemoSection() {
+  const prompts = Array.isArray(suggestedPrompts) ? suggestedPrompts : [];
+
   return (
     <section id="try-demo" className="py-20 bg-background border-t border-border">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -26,7 +28,7 @@ export function TryDemoSection() {
           </Alert>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {suggestedPrompts.map((prompt, index) => (
+            {prompts.map((prompt, index) => (
               <Card key={index} className="border-2">
                 <CardHeader>
                   <div className="flex items-start justify-between">
@@ -53,11 +55,11 @@ export function TryDemoSection() {
             ))}
           </div>
 
-          <div className="text-center pt-8">
+          <div className="text-center">
             <Button
               asChild
               size="lg"
-              className="text-lg px-10 py-6 font-semibold group"
+              className="text-lg px-8 py-6 font-semibold group"
             >
               <a
                 href="https://nexusforgeai.base44.app/Chat"
@@ -65,12 +67,9 @@ export function TryDemoSection() {
                 rel="noopener noreferrer"
               >
                 Launch Demo Environment
-                <ExternalLink className="ml-2 h-5 w-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                <ExternalLink className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </a>
             </Button>
-            <p className="text-sm text-muted-foreground mt-4">
-              No account required • Safe testing environment • Instant access
-            </p>
           </div>
         </div>
       </div>

@@ -1,50 +1,96 @@
 {
   "kind": "build_request",
-  "title": "Remove overly-green background styling from the Try Demo section",
-  "priority": "normal",
+  "title": "Stabilize build/deployment and perform full application smoke-test fixes",
+  "priority": "high",
   "requirements": [
     {
-      "id": "REQ-13",
-      "text": "Update the Try Demo section styling to remove the overly-green / AI-looking background treatment and replace it with a neutral, government-style background consistent with the site’s muted graphite/off-white palette (minimal use of green accent). Apply this specifically in `frontend/src/components/TryDemoSection.tsx` without changing any existing copy or the demo launch URL.",
-      "target": "frontend",
+      "id": "REQ-19",
+      "text": "Identify and fix the root cause of the deployment failure so the project can build and deploy successfully end-to-end.",
+      "target": "both",
       "source": {
         "messageIds": [
-          "msg-3"
+          "recent-messages-1"
         ],
         "quotes": [
-          "where it says try demo the background I don't like it its too green to ai take it out"
+          "🙏 Something went wrong with the deployment"
         ]
       },
       "acceptanceCriteria": [
-        "In `frontend/src/components/TryDemoSection.tsx`, the section wrapper background is updated so it reads neutral (no noticeable green tint), while remaining consistent with the Option A government style (flat panels, minimal color).",
-        "Any green-accent-heavy styling within the Try Demo section (e.g., prominent green icon accents) is reduced or replaced with neutral foreground/muted styling so the section no longer feels 'too green'.",
-        "All user-facing text in the Try Demo section remains unchanged.",
-        "The demo launch link remains exactly `https://nexusforgeai.base44.app/Chat` and continues to open in a new tab.",
-        "No new gradients, glows, or decorative AI-style effects are introduced in the Try Demo section."
+        "A full build completes without errors (frontend bundling and Motoko compilation).",
+        "A full deploy completes successfully with no deployment-step errors.",
+        "No new build-time warnings are introduced that indicate broken configuration (e.g., missing assets, missing environment values, broken imports)."
+      ]
+    },
+    {
+      "id": "REQ-20",
+      "text": "Run and fix a complete frontend runtime smoke test of the single-page site: all sections render, navigation scroll targets work, and all external links open correctly without console errors.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "recent-messages-2"
+        ],
+        "quotes": [
+          "fix the record on everything make sure all is working 100 percent"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Visiting the app shows the header, hero, try-demo, capabilities, how-it-works, safety/security, use-cases, FAQ, contact, and footer sections with no blank/undefined content.",
+        "Header navigation buttons scroll to the correct section IDs (hero, capabilities, how-it-works, safety-security, use-cases, faq, contact).",
+        "All “Try the Demo”/“Launch Demo Environment” links open https://nexusforgeai.base44.app/Chat in a new tab and do not throw errors.",
+        "Submitting the contact form triggers the mailto flow and does not throw runtime errors.",
+        "Browser console shows no uncaught exceptions during normal interaction (scrolling, opening mobile menu, clicking nav, clicking CTAs, submitting contact form)."
+      ]
+    },
+    {
+      "id": "REQ-21",
+      "text": "Add a minimal backend health surface (non-breaking) to confirm the canister is deployed and callable, and wire a simple frontend check to display a clear failure state if the backend is unreachable.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "recent-messages-2"
+        ],
+        "quotes": [
+          "make sure all is working 100 percent"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Backend exposes a simple query method (e.g., returning a static string/version) that compiles and is callable after deploy.",
+        "Frontend performs a lightweight check (on load or via a diagnostics UI element) and shows an English, user-friendly message if the backend cannot be reached.",
+        "The health check does not require authentication and does not modify persistent state.",
+        "No changes are made to immutable frontend hook files; the implementation composes with the existing actor/auth setup."
+      ]
+    },
+    {
+      "id": "REQ-22",
+      "text": "Audit and fix any broken/missing static assets referenced by the UI (especially images under /assets/generated) so that all images load without 404s after deployment.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "recent-messages-2"
+        ],
+        "quotes": [
+          "fix the record on everything"
+        ]
+      },
+      "acceptanceCriteria": [
+        "All referenced static asset URLs resolve successfully (no 404s) in the deployed environment.",
+        "Hero/background and logo assets (if referenced) load correctly in both light and dark mode contexts.",
+        "No static assets are served through the backend; assets remain in the frontend public directory pathing."
       ]
     }
   ],
   "constraints": [
-    "Do not change the demo URL (`https://nexusforgeai.base44.app/Chat`) or its behavior (new tab, noopener noreferrer).",
-    "Keep all existing English marketing copy in the Try Demo section unchanged."
+    "Do not edit files in frontend immutablePaths (frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui).",
+    "Keep the demo URL behavior unchanged: https://nexusforgeai.base44.app/Chat must remain the external demo destination where currently used.",
+    "Respect the single-actor Motoko architecture; keep all Motoko logic in backend/main.mo and add migration only if existing stable state would otherwise break."
   ],
   "nonGoals": [
-    "Redesigning other sections beyond the Try Demo section.",
-    "Changing the content (prompts, disclaimer text) in `frontend/src/content/tryDemo.ts`.",
-    "Adding new demo flows, authentication, or backend changes."
+    "Do not introduce new product features beyond what is required to restore successful build/deploy and verify operability.",
+    "Do not add third-party services (analytics, email providers, external databases, or third-party auth).",
+    "Do not redesign the site or change marketing copy except where strictly necessary to fix broken UI behavior or errors."
   ],
   "imageRequirements": {
     "required": [],
     "edits": []
-  },
-  "userProfileUpdate": {
-    "goalsToAdd": [],
-    "goalsToRemove": [],
-    "preferencesToAdd": [],
-    "preferencesToRemove": [],
-    "miscToAdd": [],
-    "miscToRemove": [],
-    "fieldsToSet": {},
-    "fieldsToDelete": []
   }
 }

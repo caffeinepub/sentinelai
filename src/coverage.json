@@ -1,34 +1,105 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-15T21:54:43.514Z",
+  "generatedAt": "2026-02-15T22:59:01.269Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 1,
-    "implemented": 1,
+    "total": 4,
+    "implemented": 4,
     "items": [
       {
-        "id": "REQ-13",
-        "summary": "Update the Try Demo section styling to remove the overly-green / AI-looking background treatment and replace it with a neutral, government-style background consistent with the site’s muted graphite/off-white palette (minimal use of green accent). Apply this specifically in `frontend/src/components/TryDemoSection.tsx` without changing any existing copy or the demo launch URL.",
+        "id": "REQ-19",
+        "summary": "Identify and fix the root cause of the deployment failure so the project can build and deploy successfully end-to-end.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/TryDemoSection.tsx"
+          "frontend/src/App.tsx",
+          "frontend/index.html",
+          "frontend/src/components/SiteHeader.tsx",
+          "frontend/src/components/SiteFooter.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/TryDemoSection.tsx"
+          "frontend/src/App.tsx",
+          "frontend/index.html",
+          "frontend/src/components/SiteHeader.tsx",
+          "frontend/src/components/SiteFooter.tsx"
+        ]
+      },
+      {
+        "id": "REQ-20",
+        "summary": "Run and fix a complete frontend runtime smoke test of the single-page site: all sections render, navigation scroll targets work, and all external links open correctly without console errors.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/SiteHeader.tsx",
+          "frontend/src/components/HeroSection.tsx",
+          "frontend/src/components/TryDemoSection.tsx",
+          "frontend/src/components/ContactSection.tsx",
+          "frontend/src/components/SiteFooter.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/SiteHeader.tsx",
+          "frontend/src/components/HeroSection.tsx",
+          "frontend/src/components/TryDemoSection.tsx",
+          "frontend/src/components/ContactSection.tsx",
+          "frontend/src/components/SiteFooter.tsx"
+        ]
+      },
+      {
+        "id": "REQ-21",
+        "summary": "Add a minimal backend health surface (non-breaking) to confirm the canister is deployed and callable, and wire a simple frontend check to display a clear failure state if the backend is unreachable.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/BackendHealthBanner.tsx",
+          "frontend/src/App.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/BackendHealthBanner.tsx",
+          "frontend/src/App.tsx"
+        ]
+      },
+      {
+        "id": "REQ-22",
+        "summary": "Audit and fix any broken/missing static assets referenced by the UI (especially images under /assets/generated) so that all images load without 404s after deployment.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/public/assets/generated/sentinelai-hero-bg.dim_1920x1080.png",
+          "frontend/public/assets/generated/sentinelai-logo-light.dim_512x512.png",
+          "frontend/public/assets/generated/sentinelai-logo-dark.dim_512x512.png",
+          "frontend/public/assets/generated/nexusforgeai-logo-light.dim_512x512.png",
+          "frontend/public/assets/generated/nexusforgeai-logo-dark.dim_512x512.png",
+          "frontend/public/assets/generated/sentinelai-capability-icons.dim_1024x1024.png",
+          "frontend/src/components/SiteHeader.tsx",
+          "frontend/src/components/SiteFooter.tsx",
+          "frontend/index.html"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/SiteHeader.tsx",
+          "frontend/src/components/SiteFooter.tsx",
+          "frontend/index.html"
         ]
       }
     ]
   },
   "changedFiles": [
+    "backend/main.mo",
     "build-request.json",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
+    "frontend/index.html",
+    "frontend/src/App.tsx",
+    "frontend/src/backend.d.ts",
+    "frontend/src/backend.ts",
+    "frontend/src/components/BackendHealthBanner.tsx",
+    "frontend/src/components/ContactSection.tsx",
+    "frontend/src/components/HeroSection.tsx",
+    "frontend/src/components/SiteFooter.tsx",
+    "frontend/src/components/SiteHeader.tsx",
     "frontend/src/components/TryDemoSection.tsx",
+    "frontend/src/declarations/backend.did.d.ts",
+    "frontend/src/declarations/backend.did.js",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

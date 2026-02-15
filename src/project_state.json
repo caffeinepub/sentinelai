@@ -1,13 +1,17 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 7,
-  "summary": "Build a professional marketing/explainer website for SentinelAI with a more formal, government-grade visual design (Option A) while still clearly explaining safe testing, detailed capabilities, and contact details.",
+  "projectStateVersion": 11,
+  "summary": "Rename the website/product to Nexus Forge AI and add an on-site AI assistant that answers visitor questions with real, working logic, while maintaining the professional government-grade marketing/explainer site requirements (capabilities, safe testing guidance, demo link, contact details).",
   "architectural_notes": [
     "Website should clearly explain app purpose, how it works, and every capability; include guidance for safe testing by companies; include contact email SentinelAI@usa.com and link to https://nexusforgeai.base44.app/Chat.",
     "Adopt 'Option A' government-grade design language: flat/minimal/authoritative styling, hard lines, increased whitespace and hierarchy, muted graphite/off-white palette with subtle green accent; avoid gradients, glows, and overly 'AI-generated' aesthetics.",
-    "Ensure the 'Try Demo' section/background uses restrained accent colors (avoid large green fills) to maintain the formal government-grade look and avoid an 'AI-made' aesthetic."
+    "Ensure the 'Try Demo' section/background uses restrained accent colors (avoid large green fills) to maintain the formal government-grade look and avoid an 'AI-made' aesthetic.",
+    "Update site/product name to “Nexus Forge AI” across all pages/metadata/branding.",
+    "Add an on-site AI assistant/chat component that answers visitor questions (functional, real logic; production-ready with no runtime errors)."
   ],
-  "known_issues": [],
+  "known_issues": [
+    "Deployment failed during build/deploy step (\"Something went wrong with the deployment\")."
+  ],
   "isFixRequest": true,
   "existing_features": [
     {
@@ -113,6 +117,70 @@
         "REQ-13"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-rename-the-product-website-branding-from-sentinelai-to-nexus-forge-ai-across-all-user-facing-ui-and-metadata-while-keeping-the-existing-site-structure-sections-and-demo-link-behavior-unchanged",
+      "title": "Rename the product/website branding from “SentinelAI” to “Nexus Forge AI” across all user-facing UI and metadata, while keeping the existing site structure, sections, and demo link behavior unchanged.",
+      "reqIds": [
+        "REQ-14"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-new-nexus-forge-ai-logo-assets-and-update-the-header-footer-to-use-the-new-logo-files-as-static-generated-assets",
+      "title": "Add new Nexus Forge AI logo assets and update the header/footer to use the new logo files as static generated assets.",
+      "reqIds": [
+        "REQ-15"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-a-production-ready-on-site-ai-assistant-ui-that-allows-visitors-to-ask-questions-and-receive-answers-on-the-website-embedded-widget-or-section-consistent-with-the-government-grade-design-flat-panels-squared-corners-minimal-effects",
+      "title": "Implement a production-ready on-site AI assistant UI that allows visitors to ask questions and receive answers on the website (embedded widget or section), consistent with the government-grade design (flat panels, squared corners, minimal effects).",
+      "reqIds": [
+        "REQ-16"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-wire-the-frontend-assistant-ui-to-the-motoko-backend-assistant-api-using-the-existing-actor-auth-setup-patterns-with-robust-error-handling-and-user-visible-failure-states",
+      "title": "Wire the frontend assistant UI to the Motoko backend assistant API using the existing actor/auth setup patterns, with robust error handling and user-visible failure states.",
+      "reqIds": [
+        "REQ-18"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-identify-and-fix-the-root-cause-of-the-deployment-failure-so-the-project-can-build-and-deploy-successfully-end-to-end",
+      "title": "Identify and fix the root cause of the deployment failure so the project can build and deploy successfully end-to-end.",
+      "reqIds": [
+        "REQ-19"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-run-and-fix-a-complete-frontend-runtime-smoke-test-of-the-single-page-site-all-sections-render-navigation-scroll-targets-work-and-all-external-links-open-correctly-without-console-errors",
+      "title": "Run and fix a complete frontend runtime smoke test of the single-page site: all sections render, navigation scroll targets work, and all external links open correctly without console errors.",
+      "reqIds": [
+        "REQ-20"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-minimal-backend-health-surface-non-breaking-to-confirm-the-canister-is-deployed-and-callable-and-wire-a-simple-frontend-check-to-display-a-clear-failure-state-if-the-backend-is-unreachable",
+      "title": "Add a minimal backend health surface (non-breaking) to confirm the canister is deployed and callable, and wire a simple frontend check to display a clear failure state if the backend is unreachable.",
+      "reqIds": [
+        "REQ-21"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-audit-and-fix-any-broken-missing-static-assets-referenced-by-the-ui-especially-images-under-assets-generated-so-that-all-images-load-without-404s-after-deployment",
+      "title": "Audit and fix any broken/missing static assets referenced by the UI (especially images under /assets/generated) so that all images load without 404s after deployment.",
+      "reqIds": [
+        "REQ-22"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -133,10 +201,24 @@
       "summary": "Update the 'Try Demo' section background styling to remove the overly-green/AI-looking background; use a more neutral government-style treatment consistent with the muted graphite/off-white palette and restrained accent usage.",
       "reqIds": [],
       "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Rename the product/site to “Nexus Forge AI” and add an embedded AI assistant on the website that can answer visitor questions using real implemented logic (production-ready, no errors).",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "Implement the AI assistant’s answering logic as real backend functionality in Motoko (no placeholder responses), exposing a canister method that accepts a user question and returns an answer derived from a curated on-site knowledge base (site content/FAQs/capabilities/safe testing guidance).",
+      "reqIds": [
+        "REQ-17"
+      ],
+      "status": "pending"
     }
   ],
   "gameProjectType": "none",
-  "projectName": "SentinelAI",
+  "projectName": "Nexus Forge AI",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }
