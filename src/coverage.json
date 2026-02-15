@@ -1,0 +1,37 @@
+{
+  "kind": "coverage_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-15T21:54:43.514Z",
+  "sources": {
+    "buildRequest": true,
+    "implementationPlan": true
+  },
+  "requirements": {
+    "total": 1,
+    "implemented": 1,
+    "items": [
+      {
+        "id": "REQ-13",
+        "summary": "Update the Try Demo section styling to remove the overly-green / AI-looking background treatment and replace it with a neutral, government-style background consistent with the site’s muted graphite/off-white palette (minimal use of green accent). Apply this specifically in `frontend/src/components/TryDemoSection.tsx` without changing any existing copy or the demo launch URL.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/TryDemoSection.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/TryDemoSection.tsx"
+        ]
+      }
+    ]
+  },
+  "changedFiles": [
+    "build-request.json",
+    "feature_evidence.json",
+    "frontend-file-summaries.txt",
+    "frontend-implementation-plan.json",
+    "frontend/src/components/TryDemoSection.tsx",
+    "project_state.json",
+    "scratch/component-selection.json",
+    "spec.md",
+    "spec_vs_diff_report.json"
+  ]
+}

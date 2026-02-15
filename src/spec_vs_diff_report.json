@@ -1,0 +1,29 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-15T21:54:43.512Z",
+  "summary": "REQ-13 appears implemented in TryDemoSection.tsx: the section wrapper uses a neutral background (bg-background) with flat borders, and green-accent-heavy styling is reduced via muted icon colors and muted panels. The demo URL/link target+rel behavior is preserved, and no gradients/glows are introduced. Two ancillary metadata/state files were also modified, which were not requested.",
+  "missing_requirements": [],
+  "hallucinated_features": [
+    {
+      "description": "Modified project metadata/state tracking (project_state.json) even though the request was limited to styling changes in TryDemoSection.tsx.",
+      "reason": "BuildRequest specifies applying changes specifically in frontend/src/components/TryDemoSection.tsx and lists non-goals around other changes; updating project state metadata is not requested.",
+      "evidence": [
+        "project_state.json (truncated)"
+      ]
+    },
+    {
+      "description": "Updated/added descriptive entry for TryDemoSection in a frontend file summaries artifact.",
+      "reason": "frontend-file-summaries.txt changes are not part of the requested styling implementation and are outside the explicitly named target file.",
+      "evidence": [
+        "frontend-file-summaries.txt"
+      ]
+    }
+  ],
+  "confidence": 0.72,
+  "changed_files": [
+    "frontend-file-summaries.txt",
+    "frontend/src/components/TryDemoSection.tsx",
+    "project_state.json"
+  ]
+}

@@ -1,0 +1,142 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 7,
+  "summary": "Build a professional marketing/explainer website for SentinelAI with a more formal, government-grade visual design (Option A) while still clearly explaining safe testing, detailed capabilities, and contact details.",
+  "architectural_notes": [
+    "Website should clearly explain app purpose, how it works, and every capability; include guidance for safe testing by companies; include contact email SentinelAI@usa.com and link to https://nexusforgeai.base44.app/Chat.",
+    "Adopt 'Option A' government-grade design language: flat/minimal/authoritative styling, hard lines, increased whitespace and hierarchy, muted graphite/off-white palette with subtle green accent; avoid gradients, glows, and overly 'AI-generated' aesthetics.",
+    "Ensure the 'Try Demo' section/background uses restrained accent colors (avoid large green fills) to maintain the formal government-grade look and avoid an 'AI-made' aesthetic."
+  ],
+  "known_issues": [],
+  "isFixRequest": true,
+  "existing_features": [
+    {
+      "id": "feature-create-a-professional-multi-section-marketing-explainer-website-for-the-ai-app-that-clearly-explains-what-the-app-does-how-it-works-and-what-companies-can-safely-do-to-test-it-using-the-provided-demo-url-and-positioning-the-product-as-suitable-for-all-company-types-not-only-government-agencies",
+      "title": "Create a professional multi-section marketing/explainer website for the AI app that clearly explains what the app does, how it works, and what companies can safely do to test it, using the provided demo URL and positioning the product as suitable for all company types (not only government agencies).",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-dedicated-capabilities-section-page-that-enumerates-and-explains-every-ai-capability-the-product-offers-in-a-structured-scannable-format-grouped-categories-with-concise-descriptions-inputs-outputs-and-limitations-constraints-where-applicable-written-for-business-decision-makers-and-technical-evaluators",
+      "title": "Add a dedicated 'Capabilities' section/page that enumerates and explains every AI capability the product offers in a structured, scannable format (grouped categories with concise descriptions, inputs/outputs, and limitations/constraints where applicable), written for business decision-makers and technical evaluators.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-how-it-works-explanation-that-describes-the-product-workflow-end-to-end-how-a-company-tests-the-ai-what-users-do-in-the-demo-what-happens-to-inputs-outputs-at-a-high-level-without-revealing-sensitive-implementation-details-include-an-explicit-safe-testing-explanation-suitable-for-compliance-minded-organizations",
+      "title": "Add a 'How it works' explanation that describes the product workflow end-to-end (how a company tests the AI, what users do in the demo, what happens to inputs/outputs at a high level) without revealing sensitive implementation details; include an explicit 'Safe testing' explanation suitable for compliance-minded organizations.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-a-contact-section-with-the-provided-email-address-and-clear-next-steps-for-companies-to-request-access-ask-questions-or-schedule-a-demo-include-a-mailto-link-and-optionally-a-simple-on-site-contact-form-if-supported-without-third-party-services",
+      "title": "Implement a Contact section with the provided email address and clear next steps for companies to request access, ask questions, or schedule a demo; include a mailto link and optionally a simple on-site contact form if supported without third-party services.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-overall-build-quality-no-runtime-errors-no-broken-routes-responsive-layout-and-consistent-typography-spacing-include-basic-seo-metadata-title-description-and-accessible-semantics-landmarks-heading-order-link-button-labels",
+      "title": "Ensure overall build quality: no runtime errors, no broken routes, responsive layout, and consistent typography/spacing; include basic SEO metadata (title, description) and accessible semantics (landmarks, heading order, link/button labels).",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-apply-a-coherent-distinctive-visual-theme-appropriate-for-a-security-professional-ai-product-avoid-blue-purple-including-a-consistent-color-palette-typography-scale-button-styles-and-section-layouts-across-the-site",
+      "title": "Apply a coherent, distinctive visual theme appropriate for a security/professional AI product (avoid blue/purple), including a consistent color palette, typography scale, button styles, and section layouts across the site.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-try-the-demo-experience-on-the-site-that-clearly-routes-users-to-the-provided-chat-demo-url-include-context-text-describing-what-testers-should-try-and-what-to-expect-plus-a-clear-disclaimer-that-the-demo-is-a-test-environment-if-applicable",
+      "title": "Add a 'Try the Demo' experience on the site that clearly routes users to the provided chat demo URL; include context text describing what testers should try and what to expect, plus a clear disclaimer that the demo is a test environment (if applicable).",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-and-render-required-static-marketing-images-generated-assets-by-placing-them-in-frontend-public-assets-generated-and-using-them-in-the-hero-and-supporting-sections-no-backend-image-routing",
+      "title": "Add and render required static marketing images (generated assets) by placing them in frontend/public/assets/generated and using them in the hero and supporting sections (no backend image routing).",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-site-s-visual-design-to-match-option-a-government-style-very-serious-minimal-hard-lines-reduce-rounded-corners-almost-no-color-except-a-restrained-accent-and-remove-any-ai-made-visual-signals-no-gradients-no-glow-effects-no-playful-soft-ui-apply-consistently-across-the-header-hero-and-all-sections",
+      "title": "Update the site’s visual design to match “Option A: Government style”: very serious, minimal, hard lines (reduce rounded corners), almost no color except a restrained accent, and remove any “AI-made” visual signals (no gradients, no glow effects, no playful/soft UI). Apply consistently across the header, hero, and all sections.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-refactor-the-hero-section-styling-to-be-government-grade-replace-the-background-overlay-gradient-with-a-flat-near-flat-overlay-remove-the-gradient-headline-treatment-and-convert-the-rounded-pill-badge-to-a-rectangular-squared-badge-keep-all-existing-english-marketing-copy-and-both-ctas-try-the-demo-and-contact-sales-and-their-behaviors-urls-unchanged",
+      "title": "Refactor the Hero section styling to be government-grade: replace the background overlay gradient with a flat/near-flat overlay, remove the gradient headline treatment, and convert the rounded “pill” badge to a rectangular/squared badge. Keep all existing English marketing copy and both CTAs (Try the Demo and Contact Sales) and their behaviors/URLs unchanged.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-section-level-card-and-callout-styling-e-g-try-demo-cards-safety-security-cards-callouts-contact-cards-to-remove-modern-saas-embellishments-hover-heavy-shadows-gradient-icon-containers-colorful-multi-accent-icons-and-replace-with-government-style-flat-panels-light-borders-minimal-shadows-and-consistent-squared-corners",
+      "title": "Update section-level card and callout styling (e.g., Try Demo cards, Safety & Security cards/callouts, Contact cards) to remove “modern SaaS” embellishments (hover-heavy shadows, gradient icon containers, colorful multi-accent icons) and replace with government-style flat panels: light borders, minimal shadows, and consistent squared corners.",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-header-navigation-styling-to-match-a-government-site-reduce-translucency-backdrop-blur-effects-ensure-strong-contrast-use-squared-low-radius-hover-focus-states-and-keep-navigation-labels-and-demo-link-behavior-unchanged",
+      "title": "Update the header/navigation styling to match a government site: reduce translucency/backdrop blur effects, ensure strong contrast, use squared/low-radius hover/focus states, and keep navigation labels and demo link behavior unchanged.",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-try-demo-section-styling-to-remove-the-overly-green-ai-looking-background-treatment-and-replace-it-with-a-neutral-government-style-background-consistent-with-the-site-s-muted-graphite-off-white-palette-minimal-use-of-green-accent-apply-this-specifically-in-frontend-src-components-trydemosection-tsx-without-changing-any-existing-copy-or-the-demo-launch-url",
+      "title": "Update the Try Demo section styling to remove the overly-green / AI-looking background treatment and replace it with a neutral, government-style background consistent with the site’s muted graphite/off-white palette (minimal use of green accent). Apply this specifically in `frontend/src/components/TryDemoSection.tsx` without changing any existing copy or the demo launch URL.",
+      "reqIds": [
+        "REQ-13"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Create a professional website explaining the AI app, its capabilities, how it works, and how companies can safely test it; include positioning for all company types and contact email.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Redesign the site to a government-style visual theme (very serious, minimal, hard lines, muted graphite/off-white with subtle green accent; no gradients/glow), to avoid an 'AI-made' look and feel suitable for real government clients.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Update the 'Try Demo' section background styling to remove the overly-green/AI-looking background; use a more neutral government-style treatment consistent with the muted graphite/off-white palette and restrained accent usage.",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "SentinelAI",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

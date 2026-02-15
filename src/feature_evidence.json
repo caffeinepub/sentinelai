@@ -1,0 +1,23 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-update-the-try-demo-section-styling-to-remove-the-overly-green-ai-looking-background-treatment-and-replace-it-with-a-neutral-government-style-background-consistent-with-the-site-s-muted-graphite-off-white-palette-minimal-use-of-green-accent-apply-this-specifically-in-frontend-src-components-trydemosection-tsx-without-changing-any-existing-copy-or-the-demo-launch-url",
+      "featureTitle": "Update the Try Demo section styling to remove the overly-green / AI-looking background treatment and replace it with a neutral, government-style background consistent with the site’s muted graphite/off-white palette (minimal use of green accent). Apply this specifically in `frontend/src/components/TryDemoSection.tsx` without changing any existing copy or the demo launch URL.",
+      "files": [
+        "frontend/src/components/TryDemoSection.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-13"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

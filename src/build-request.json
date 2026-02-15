@@ -1,0 +1,50 @@
+{
+  "kind": "build_request",
+  "title": "Remove overly-green background styling from the Try Demo section",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-13",
+      "text": "Update the Try Demo section styling to remove the overly-green / AI-looking background treatment and replace it with a neutral, government-style background consistent with the site’s muted graphite/off-white palette (minimal use of green accent). Apply this specifically in `frontend/src/components/TryDemoSection.tsx` without changing any existing copy or the demo launch URL.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-3"
+        ],
+        "quotes": [
+          "where it says try demo the background I don't like it its too green to ai take it out"
+        ]
+      },
+      "acceptanceCriteria": [
+        "In `frontend/src/components/TryDemoSection.tsx`, the section wrapper background is updated so it reads neutral (no noticeable green tint), while remaining consistent with the Option A government style (flat panels, minimal color).",
+        "Any green-accent-heavy styling within the Try Demo section (e.g., prominent green icon accents) is reduced or replaced with neutral foreground/muted styling so the section no longer feels 'too green'.",
+        "All user-facing text in the Try Demo section remains unchanged.",
+        "The demo launch link remains exactly `https://nexusforgeai.base44.app/Chat` and continues to open in a new tab.",
+        "No new gradients, glows, or decorative AI-style effects are introduced in the Try Demo section."
+      ]
+    }
+  ],
+  "constraints": [
+    "Do not change the demo URL (`https://nexusforgeai.base44.app/Chat`) or its behavior (new tab, noopener noreferrer).",
+    "Keep all existing English marketing copy in the Try Demo section unchanged."
+  ],
+  "nonGoals": [
+    "Redesigning other sections beyond the Try Demo section.",
+    "Changing the content (prompts, disclaimer text) in `frontend/src/content/tryDemo.ts`.",
+    "Adding new demo flows, authentication, or backend changes."
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Neutralize Try Demo section styling to match muted government palette",
+  "requirements": [
+    {
+      "id": "REQ-13",
+      "summary": "Remove green-heavy background/accent styling in the Try Demo section and replace with neutral government-style panel treatment while keeping all copy and the demo link unchanged.",
+      "acceptanceCriteria": [
+        "In `frontend/src/components/TryDemoSection.tsx`, the section wrapper background is updated so it reads neutral (no noticeable green tint), while remaining consistent with the Option A government style (flat panels, minimal color).",
+        "Any green-accent-heavy styling within the Try Demo section (e.g., prominent green icon accents) is reduced or replaced with neutral foreground/muted styling so the section no longer feels 'too green'.",
+        "All user-facing text in the Try Demo section remains unchanged.",
+        "The demo launch link remains exactly `https://nexusforgeai.base44.app/Chat` and continues to open in a new tab.",
+        "No new gradients, glows, or decorative AI-style effects are introduced in the Try Demo section."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/TryDemoSection.tsx",
+          "operation": "modify",
+          "description": "Adjust the Try Demo section’s Tailwind classes to eliminate any green-tinted/AI-styled treatment and align with the site’s muted graphite/off-white government aesthetic. Keep the existing shadcn-ui Button/Card/Alert structure (verify the component's usage instructions before implementing). Specifically: (1) update the section wrapper background to a neutral background/panel (no green tint), (2) reduce green accents by replacing the `text-success` Sparkles icon styling with a neutral/muted foreground, (3) convert the warning alert to a mostly-neutral panel treatment (e.g., neutral background/border with a restrained warning accent) without adding gradients/glows, and (4) keep all text and the demo link/attributes exactly as-is (URL, new tab, noopener noreferrer)."
+        }
+      ]
+    }
+  ]
+}
